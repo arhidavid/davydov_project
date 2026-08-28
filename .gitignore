@@ -5,6 +5,7 @@ node_modules/
 dist/
 server/dist/
 client/dist/
+*.tsbuildinfo
 
 # Local data store
 server/data/*.json
