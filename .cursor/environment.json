@@ -1,0 +1,21 @@
+{
+  "name": "Convex Party",
+  "install": "npm install\nCONVEX_AGENT_MODE=anonymous npx convex dev --once",
+  "terminals": [
+    {
+      "name": "convex",
+      "command": "CONVEX_AGENT_MODE=anonymous npx convex dev",
+      "description": "Convex local (anonymous) backend + live function push/codegen. Writes VITE_CONVEX_URL into .env.local."
+    },
+    {
+      "name": "vite",
+      "command": "npm run dev:frontend",
+      "description": "Vite dev server for the React frontend on port 5173."
+    }
+  ],
+  "ports": [
+    { "name": "web", "port": 5173 },
+    { "name": "convex-backend", "port": 3210 },
+    { "name": "convex-dashboard", "port": 6790 }
+  ]
+}
