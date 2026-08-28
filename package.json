@@ -1,23 +1,35 @@
 {
-  "name": "taskflow",
-  "version": "1.0.0",
+  "name": "convex-party",
+  "version": "0.1.0",
   "private": true,
-  "description": "TaskFlow — a modern full-stack task manager (React + Vite client, Express + TypeScript API).",
-  "workspaces": [
-    "server",
-    "client"
-  ],
+  "type": "module",
+  "description": "Real-time multiplayer 'rooms' skeleton built on Convex + Vite. Flexible base for a Cursor x Convex hackathon entry.",
   "scripts": {
-    "dev": "concurrently -n server,client -c blue,magenta \"npm:dev:server\" \"npm:dev:client\"",
-    "dev:server": "npm run dev --workspace server",
-    "dev:client": "npm run dev --workspace client",
-    "build": "npm run build --workspace server && npm run build --workspace client",
-    "typecheck": "npm run typecheck --workspace server && npm run typecheck --workspace client",
-    "start": "npm run start --workspace server",
-    "test": "npm run test --workspace server"
+    "dev": "concurrently -n convex,vite -c green,magenta \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "convex dev",
+    "dev:frontend": "vite",
+    "build": "tsc -b && vite build",
+    "deploy": "convex deploy --cmd 'vite build'",
+    "typecheck": "tsc -b --noEmit",
+    "test": "vitest run",
+    "lint": "tsc -b --noEmit"
+  },
+  "dependencies": {
+    "convex": "^1.27.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "@edge-runtime/vm": "^5.0.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "convex-test": "^0.0.37",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
   },
   "engines": {
     "node": ">=20"
