@@ -6,6 +6,10 @@ a shared synced counter, and floating emoji reactions, all with zero WebSocket c
 
 This repo is a deliberately generic, pivot-ready base for a hackathon entry (see context below).
 
+The project goal and **current project state** for Cursor agents are in [AGENTS.md](./AGENTS.md).
+That file is loaded into every new agent session. The always-apply Cursor rule is
+`.cursor/rules/project-goal.mdc`.
+
 ---
 
 ## Project context (read this first if you're an agent picking this up)
@@ -128,6 +132,9 @@ account (not yet created):
 │   ├── rooms.test.ts       # convex-test suite
 │   └── _generated/         # committed generated API/types
 ├── src/                    # React + Vite frontend (mobile-first)
-├── .cursor/environment.json# Cloud Agent env (Convex local + Vite terminals)
+├── .cursor/
+│   ├── environment.json    # Cloud Agent env (Convex local + Vite terminals)
+│   └── rules/project-goal.mdc  # Always-apply: follow AGENTS.md
+├── AGENTS.md               # Hackathon goal + current project state for agents
 └── package.json
 ```
