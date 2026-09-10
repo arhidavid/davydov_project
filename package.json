@@ -12,7 +12,10 @@
     "deploy": "convex deploy --cmd 'vite build'",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest run",
-    "lint": "tsc -b --noEmit"
+    "lint": "tsc -b --noEmit",
+    "qr:dev": "npm --prefix qr run dev",
+    "qr:deploy": "npm --prefix qr run deploy",
+    "qr:test": "npm --prefix qr test"
   },
   "dependencies": {
     "convex": "^1.27.0",
