@@ -8,14 +8,14 @@ in this repo (Convex + Vite + React). Do not replace it with a different backend
 
 ## Project state
 
-**Current state: Preparing for hackathon**
+**Current state: Awaiting hackathon day**
 
 The owner changes state. When it changes, update **Current state** in this file immediately so later agents inherit it.
 
 | State | Starts when | Agents do |
 | --- | --- | --- |
-| **Preparing for hackathon** | (now) | Close the [preparation exit criteria](#leaving-preparation). Do not invent the product or start building the app. **All exit criteria are checked** — owner can confirm move to **Awaiting hackathon day**. |
-| **Awaiting hackathon day** | Owner confirms **and** every preparation criterion is met | Hold. No product work until hackathon day. |
+| **Preparing for hackathon** | (done) | Close the [preparation exit criteria](#leaving-preparation). Do not invent the product or start building the app. |
+| **Awaiting hackathon day** | (now) Owner confirmed 2026-09-10; all preparation criteria met | Hold. No product work until hackathon day. When the owner says we are starting and gives the theme, move to **Brainstorming**. |
 | **Brainstorming** | Owner says we are starting and gives the theme | Propose and refine app ideas. Do not implement until the idea is locked. |
 | **Development** | Idea is locked in | Build and deploy. The product **must include and use the Convex service**. Public demo URL + presenter QR code. |
 | **Project finished** | Development and deploy are complete | Stop building unless the owner asks for a change. |
@@ -24,9 +24,7 @@ When the idea is locked, write it into this file (who it is for, what it does) s
 
 ## Leaving preparation
 
-Do not move to **Awaiting hackathon day** until **every** item below is true. The owner still confirms the move. If asked to leave preparation while anything is open, report what is missing and stay in **Preparing for hackathon**.
-
-Work in this state is only toward closing this list. When a criterion is done, check its box here so later agents see what is still open.
+Preparation is **complete** (owner confirmed move to **Awaiting hackathon day** on 2026-09-10). Kept below as the historical checklist — all items were true before the move.
 
 - [x] **Agent context** — `AGENTS.md` and the always-apply project rule are on the default branch, so every new agent loads goal and state.
 - [x] **Convex app in the repo** — React + Vite + Convex is merged, not only on a feature branch. The rooms / presence / reactions skeleton is on `main`.
@@ -55,8 +53,8 @@ Every task in this repo is work toward that hackathon demo. Before changing arch
 ## How to work
 
 - Keep this goal **and the current project state** in mind for the whole task.
-- Stay in the current state. Do not skip ahead (for example: do not brainstorm or build the app while still preparing).
-- While **Preparing for hackathon**, only work that closes the preparation exit criteria.
+- Stay in the current state. Do not skip ahead (for example: do not brainstorm or build the app while still awaiting hackathon day).
+- While **Awaiting hackathon day**, hold. No product work until the owner starts hackathon day and gives the theme.
 - Prefer small, shippable slices over large rewrites.
 - Wire features through Convex (queries, mutations, live data). Local `convex dev` is for development; the destination is a product running on Convex.
 - If a hosted Convex, Fly.io, or Cloudflare deployment needs credentials, ask the owner — do not drop Convex or substitute another backend.

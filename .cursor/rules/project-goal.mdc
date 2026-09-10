@@ -4,4 +4,4 @@ alwaysApply: true
 
 Follow the project goal and **current project state** in @AGENTS.md for every task.
 
-This is a Cursor Belgrade Hackathon build. The final project **must include and use the Convex service** as its backend. The live demo must be on a **public URL** with a **QR code** the audience can scan (Fly.io and Cloudflare accounts are available). Do not skip ahead of the current state. Do not leave **Preparing for hackathon** until every item in the preparation exit criteria is true. Ship a demo-ready product that depends on Convex — not a UI that could run without it.
+This is a Cursor Belgrade Hackathon build. The final project **must include and use the Convex service** as its backend. The live demo must be on a **public URL** with a **QR code** the audience can scan (Fly.io and Cloudflare accounts are available). Do not skip ahead of the current state. While **Awaiting hackathon day**, hold — no product brainstorming or app building until the owner starts hackathon day and gives the theme. Ship a demo-ready product that depends on Convex — not a UI that could run without it.
