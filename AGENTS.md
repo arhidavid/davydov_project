@@ -33,7 +33,7 @@ Work in this state is only toward closing this list. When a criterion is done, c
 - [x] **Cloud Agents can run it** — a new agent can install and start Vite plus a Convex backend without extra setup (see `.cursor/environment.json`).
 - [x] **Convex path is proven** — a query and a mutation round-trip in the running app (the starter sample is enough). Rooms, presence, taps, and reactions do this; `npm test` covers the Convex functions.
 - [x] **Convex service is ready** — hosted Convex project `mike-dav/convex-party` exists (`artful-dog-585`, eu-west-1). Cloud Agents have `CONVEX_DEPLOY_KEY` (a **dev** key for `dev/mike-dav`). Verified: `npx convex env list`, `function-spec`, and a `rooms:create` / `rooms:get` round-trip against `https://artful-dog-585.eu-west-1.convex.cloud`. Dashboard: https://dashboard.convex.dev/t/mike-dav/convex-party/artful-dog-585. **Caveat:** this is a development deploy key, not a production (`prod:`) key — mint a prod key before Cloudflare Pages production deploys.
-- [ ] **Audience QR** — we can put the demo on a **public URL** and, during the presentation, display a QR code that opens that page on phones in the audience. Localhost and Cloud Agent preview URLs do not count. The owner has **Fly.io** and **Cloudflare** accounts; use those for public hosting and DNS if needed. Ask the owner for tokens/secrets rather than inventing another host.
+- [ ] **Audience QR** — we can put the demo on a **public URL** and, during the presentation, display a QR code that opens that page on phones in the audience. Localhost and Cloud Agent preview URLs do not count. Hosting layout (locked): `davydov-pr.com` = personal calling card (**leave alone**); `qr.davydov-pr.com` = projector QR Worker (`qr/` in this repo, retarget via `TARGET_URL` env / `?url=`); `app.davydov-pr.com` = hackathon app on Cloudflare Pages + Convex. **Blocked on deploy:** Cloud Agents need `CLOUDFLARE_API_TOKEN` (and optionally `CLOUDFLARE_ACCOUNT_ID`); Cloudflare MCP cannot auth interactively here — authenticate in Cursor desktop or add the token secret, then deploy `qr/` and attach custom domains.
 
 ## Goal
 
@@ -41,7 +41,7 @@ Ship a **demo-ready product in one day**, built with Cursor agents.
 
 **The final project must include and use Convex.** Convex is not optional setup and not a local-only convenience. The shipped product must use the Convex service as its backend: database, server functions, and realtime. Do not add a competing backend. Do not ship a UI that could work without Convex. The intended frontend is React + Vite.
 
-**The live demo must be reachable from the audience.** During the demonstration, show a QR code on the presenter screen that leads to the public web page running our demo. Phones in the room should open the real app, not a laptop-only URL. Fly.io and Cloudflare are the approved options for that public URL (the owner has accounts). Convex stays the backend; Fly/Cloudflare make the frontend reachable. Hosting plan: **Cloudflare Pages** for the static frontend + **Convex Cloud** for the backend. Fly.io is unused unless Cloudflare is not viable.
+**The live demo must be reachable from the audience.** During the demonstration, show a QR code on the presenter screen that leads to the public web page running our demo. Phones in the room should open the real app, not a laptop-only URL. Fly.io and Cloudflare are the approved options for that public URL (the owner has accounts). Convex stays the backend; Fly/Cloudflare make the frontend reachable. Hosting plan: **Cloudflare Pages** at `app.davydov-pr.com` for the static frontend + **Convex Cloud** for the backend; **Worker** at `qr.davydov-pr.com` for the stage QR (retarget with `TARGET_URL`). Apex `davydov-pr.com` stays the personal site. Fly.io is unused unless Cloudflare is not viable.
 
 **How Convex judging shapes the design.** Convex hackathons consistently score on: *It's Convex* (uses Convex idioms + shows the Convex **dashboard** in the demo video), *It works*, *It's solid* (tested & documented), *UI/UX polish*, *product creativity*, and **bonus points for social virality**. Submissions need a **public deployed URL**, a **public repo**, and a **≤3-minute video** showing the app *and* the dashboard.
 
@@ -70,5 +70,6 @@ See [README.md](./README.md) for run/deploy commands. Short map:
 - `convex/schema.ts`, `convex/rooms.ts`, `convex/presence.ts`, `convex/reactions.ts` — backend
 - `convex/rooms.test.ts` — Convex function tests (`npm test`)
 - `src/components/Home.tsx`, `src/components/Room.tsx` — frontend
+- `qr/` — Cloudflare Worker for `qr.davydov-pr.com` (projector QR; env-retargetable)
 - `.cursor/environment.json` — Cloud Agent install + Convex/Vite terminals
 - `.cursor/rules/project-goal.mdc` — always-apply reminder of this file

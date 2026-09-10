@@ -38,8 +38,7 @@ boilerplate), so this skeleton leans into a live, multiplayer, phone-shareable e
 ### Chosen stack & why
 - **Backend: Convex** (the category requirement; reactive queries/mutations, no server to run).
 - **Frontend: React + Vite + TypeScript**, mobile-first SPA using the Convex React client.
-- **Hosting plan: Cloudflare Pages** for the static frontend + **Convex Cloud** for the backend.
-  Fly.io is intentionally unused — Convex removes the need for a self-hosted server.
+- **Hosting plan: Cloudflare Pages** at `app.davydov-pr.com` for the static frontend + **Convex Cloud** for the backend; **Worker** at `qr.davydov-pr.com` for the stage QR (`qr/` — retarget via `TARGET_URL`). Apex `davydov-pr.com` is the personal calling card and must not be overwritten. Fly.io is intentionally unused — Convex removes the need for a self-hosted server.
 
 ---
 
@@ -115,6 +114,8 @@ needs a **prod** deploy key:
    Production and Preview). `convex deploy` sets `VITE_CONVEX_URL` for the build automatically and
    pushes `convex/` to the matching Convex deployment.
 3. Enable Node.js compatibility if Cloudflare prompts about `node:async_hooks`.
+4. **Custom domain for the app:** attach `app.davydov-pr.com` to the Pages project (not the apex).
+5. **Presenter QR:** deploy the Worker in [`qr/`](./qr/README.md) to `qr.davydov-pr.com`. Set `TARGET_URL` to the live app URL when it exists (`npx wrangler secret put TARGET_URL` or dashboard Variables). Leave `davydov-pr.com` alone.
 
 `convex/_generated/` is committed so `npm run build` and CI work without a running backend.
 
@@ -130,7 +131,8 @@ needs a **prod** deploy key:
 │   ├── presence.ts         # join / heartbeat / list
 │   ├── reactions.ts        # send / recent (live feed)
 │   ├── rooms.test.ts       # convex-test suite
-│   └── _generated/         # committed generated API/types
+│   └── _generated/         # committed generated API types
+├── qr/                     # Cloudflare Worker → qr.davydov-pr.com (projector QR)
 ├── src/                    # React + Vite frontend (mobile-first)
 ├── .cursor/
 │   ├── environment.json    # Cloud Agent env (Convex local + Vite terminals)

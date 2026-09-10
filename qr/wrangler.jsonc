@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "davydov-qr",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-10",
+  "workers_dev": true,
+  // Custom domain — attaches on deploy when CLOUDFLARE_API_TOKEN can edit the zone.
+  // Do NOT point this Worker at apex davydov-pr.com (personal calling card).
+  "routes": [
+    {
+      "pattern": "qr.davydov-pr.com",
+      "custom_domain": true
+    }
+  ],
+  // Retarget mid-demo without a code rebuild:
+  //   npx wrangler secret put TARGET_URL   (or set plain var in dashboard → Variables)
+  // then hard-refresh the projector tab.
+  "vars": {
+    "TARGET_URL": "https://app.davydov-pr.com"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

@@ -5,6 +5,10 @@ node_modules/
 dist/
 *.tsbuildinfo
 
+# Cloudflare / Wrangler
+.wrangler/
+.dev.vars
+
 # Convex / local backend
 .env.local
 .env
