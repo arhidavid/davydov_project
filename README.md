@@ -97,25 +97,41 @@ other, and watch presence/taps/reactions sync instantly.
 
 ---
 
+## Public demo URLs (audience QR path)
+
+Preparation proved the public hosting path (Cloudflare account `Bunkmaster`):
+
+| URL | Role |
+| --- | --- |
+| https://app.davydov-pr.com | Hackathon app (Pages project `convex-party`) |
+| https://convex-party.pages.dev | Same app (Pages alias) |
+| https://qr.davydov-pr.com | Stage projector QR (`TARGET_URL` → app) |
+| https://davydov-pr.com | Personal site — **do not overwrite** |
+
+Redeploy from a Cloud Agent (needs `CLOUDFLARE_API_TOKEN`; set `CLOUDFLARE_ACCOUNT_ID=9e65f2f645a419770d1f6d770b4bee40` if unset):
+
+```bash
+npm run pages:deploy   # vite build + wrangler pages deploy
+npm run qr:deploy      # Worker + qr.davydov-pr.com custom domain
+```
+
 ## Deploying to production (Convex Cloud + Cloudflare Pages)
 
-This is the path to the **public phone-shareable URL** for the submission. The Convex Cloud
-project already exists (`mike-dav/convex-party`, deployment `artful-dog-585`). Cloud Agents
-currently hold a **dev** `CONVEX_DEPLOY_KEY` (targets `dev/mike-dav`). Production hosting still
-needs a **prod** deploy key:
+The Convex Cloud project already exists (`mike-dav/convex-party`, deployment `artful-dog-585`).
+Cloud Agents currently hold a **dev** `CONVEX_DEPLOY_KEY` (targets `dev/mike-dav`). The live
+Pages build above was shipped with `VITE_CONVEX_URL` pointed at that **dev** deployment — fine for
+prep. For true production Convex pushes:
 
 1. **Mint a production deploy key** in the Convex dashboard (Project → Settings → Deploy keys).
-   In the Cloud Agent, replace or add it as a secret named `CONVEX_DEPLOY_KEY` (see Secrets panel).
-2. **Cloudflare Pages:** connect this repo. Set the build command to:
+   Add it as `CONVEX_DEPLOY_KEY` in Cloudflare Pages secrets (and Cloud Agent secrets if agents deploy).
+2. Prefer Pages CI build command:
    ```
    npx convex deploy --cmd 'vite build'
    ```
-   and output directory `dist`. Add `CONVEX_DEPLOY_KEY` as a **Secret** env var (separately for
-   Production and Preview). `convex deploy` sets `VITE_CONVEX_URL` for the build automatically and
-   pushes `convex/` to the matching Convex deployment.
+   with output directory `dist`. `convex deploy` sets `VITE_CONVEX_URL` and pushes `convex/`.
 3. Enable Node.js compatibility if Cloudflare prompts about `node:async_hooks`.
-4. **Custom domain for the app:** attach `app.davydov-pr.com` to the Pages project (not the apex).
-5. **Presenter QR:** deploy the Worker in [`qr/`](./qr/README.md) to `qr.davydov-pr.com`. Set `TARGET_URL` to the live app URL when it exists (`npx wrangler secret put TARGET_URL` or dashboard Variables). Leave `davydov-pr.com` alone.
+4. Keep custom domains: `app.davydov-pr.com` on Pages, `qr.davydov-pr.com` on the Worker. Leave apex alone.
+5. Retarget the stage QR if the app URL changes: `npx wrangler secret put TARGET_URL` in `qr/`.
 
 `convex/_generated/` is committed so `npm run build` and CI work without a running backend.
 
