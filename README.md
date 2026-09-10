@@ -25,7 +25,7 @@ September 12th**. Key facts and decisions from the kickoff conversation:
 - **No AI features** are planned — do not add LLM/vector-search functionality unless asked.
 - **Distribution requirement:** the product must be **instantly usable on any phone via a public
   URL** (open a link / scan a QR code, no install). Mobile-first is a hard requirement.
-- **Accounts available:** Cloudflare and Fly.io. A Convex account does **not** exist yet.
+- **Accounts available:** Cloudflare, Fly.io, and Convex. Hosted project is `mike-dav/convex-party` (`artful-dog-585`, eu-west-1). Cloud Agents have a **dev** `CONVEX_DEPLOY_KEY` for `dev/mike-dav`. Mint a **production** deploy key before Cloudflare Pages production deploys.
 
 ### How Convex judging shapes the design
 Convex hackathons consistently score on: *It's Convex* (uses Convex idioms + shows the Convex
@@ -100,21 +100,21 @@ other, and watch presence/taps/reactions sync instantly.
 
 ## Deploying to production (Convex Cloud + Cloudflare Pages)
 
-This is the path to the **public phone-shareable URL** for the submission. It needs a Convex
-account (not yet created):
+This is the path to the **public phone-shareable URL** for the submission. The Convex Cloud
+project already exists (`mike-dav/convex-party`, deployment `artful-dog-585`). Cloud Agents
+currently hold a **dev** `CONVEX_DEPLOY_KEY` (targets `dev/mike-dav`). Production hosting still
+needs a **prod** deploy key:
 
-1. **Create a Convex account / project:** run `npx convex login` locally, then `npx convex dev`
-   once to create the cloud project (this converts the local project to a cloud deployment).
-2. **Mint a production deploy key** in the Convex dashboard (Project → Settings → Deploy keys).
-   In the Cloud Agent, add it as a secret named `CONVEX_DEPLOY_KEY` (see Secrets panel).
-3. **Cloudflare Pages:** connect this repo. Set the build command to:
+1. **Mint a production deploy key** in the Convex dashboard (Project → Settings → Deploy keys).
+   In the Cloud Agent, replace or add it as a secret named `CONVEX_DEPLOY_KEY` (see Secrets panel).
+2. **Cloudflare Pages:** connect this repo. Set the build command to:
    ```
    npx convex deploy --cmd 'vite build'
    ```
    and output directory `dist`. Add `CONVEX_DEPLOY_KEY` as a **Secret** env var (separately for
    Production and Preview). `convex deploy` sets `VITE_CONVEX_URL` for the build automatically and
    pushes `convex/` to the matching Convex deployment.
-4. Enable Node.js compatibility if Cloudflare prompts about `node:async_hooks`.
+3. Enable Node.js compatibility if Cloudflare prompts about `node:async_hooks`.
 
 `convex/_generated/` is committed so `npm run build` and CI work without a running backend.
 
