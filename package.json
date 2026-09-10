@@ -16,7 +16,7 @@
     "qr:dev": "npm --prefix qr run dev",
     "qr:deploy": "npm --prefix qr run deploy",
     "qr:test": "npm --prefix qr test",
-    "pages:deploy": "npm run build && wrangler pages deploy dist --project-name=convex-party --branch=main"
+    "pages:deploy": "npm run build && npx wrangler pages deploy dist --project-name=convex-party --branch=main"
   },
   "dependencies": {
     "convex": "^1.27.0",
