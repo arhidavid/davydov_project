@@ -2,6 +2,8 @@
 
 Projector-only page: a large QR that opens the **hackathon app** URL on phones.
 
+**Live:** https://qr.davydov-pr.com (Worker `davydov-qr`). Check target: `GET /target`.
+
 | Host | Role |
 | --- | --- |
 | `davydov-pr.com` | Personal calling card — **do not touch** |
@@ -12,20 +14,16 @@ Projector-only page: a large QR that opens the **hackathon app** URL on phones.
 
 The QR encodes `TARGET_URL` from the Worker environment (default in `wrangler.jsonc`: `https://app.davydov-pr.com`).
 
-Once the real app URL exists:
-
 ```bash
 cd qr
 npx wrangler secret put TARGET_URL
-# paste https://app.davydov-pr.com  (or the Pages *.pages.dev URL)
+# paste https://app.davydov-pr.com  (or https://convex-party.pages.dev)
 ```
 
 Or set a plain-text var in the Cloudflare dashboard → Worker → Settings → Variables.
-Hard-refresh the projector tab. No code change, no `wrangler deploy` required for a URL-only change when using dashboard vars / secrets.
+Hard-refresh the projector tab. No code change required for a URL-only change when using dashboard vars / secrets.
 
 Emergency override (does not persist): `https://qr.davydov-pr.com/?url=https://…`
-
-Check current target: `GET /target` → `{ "url": "…", "source": "env"|"query" }`.
 
 ## Local
 
@@ -36,14 +34,15 @@ npm run dev          # http://127.0.0.1:8787
 npm test
 ```
 
-## Deploy (needs Cloudflare credentials)
+## Deploy
 
-Cloud Agents need `CLOUDFLARE_API_TOKEN` (and optionally `CLOUDFLARE_ACCOUNT_ID`).
-Desktop: authenticate Cloudflare MCP, or `npx wrangler login`.
+Needs `CLOUDFLARE_API_TOKEN`. If `CLOUDFLARE_ACCOUNT_ID` is empty, use `9e65f2f645a419770d1f6d770b4bee40` (Bunkmaster).
 
 ```bash
 cd qr
 npx wrangler deploy
+# or from repo root:
+npm run qr:deploy
 ```
 
 `wrangler.jsonc` attaches custom domain `qr.davydov-pr.com` on deploy.
