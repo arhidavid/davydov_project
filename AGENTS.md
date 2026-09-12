@@ -3,8 +3,9 @@
 This is a **Cursor Belgrade Hackathon** project (Grok Bot Serbia Hackathon, 12 September 2026).
 The category to win is [Convex](https://www.convex.dev/).
 
-The product idea/theme is **not locked**. A pivot-ready real-time rooms skeleton already lives
-in this repo (Convex + Vite + React). Do not replace it with a different backend.
+The product is a **game** on Convex. Theme and exact rules are **not locked**.
+A pivot-ready rooms skeleton already lives in this repo (Convex + Vite + React).
+Do not replace it with a different backend. See [BRAINSTORM.md](./BRAINSTORM.md).
 
 ## Project state
 
@@ -16,11 +17,28 @@ The owner changes state. When it changes, update **Current state** in this file 
 | --- | --- | --- |
 | **Preparing for hackathon** | (done) | Close the [preparation exit criteria](#leaving-preparation). Do not invent the product or start building the app. |
 | **Awaiting hackathon day** | (done) Owner confirmed 2026-09-10; all preparation criteria met | Hold. No product work until hackathon day. When the owner says we are starting and gives the theme, move to **Brainstorming**. |
-| **Brainstorming** | (now) Owner started hackathon day 2026-09-12 | Propose and refine app ideas. Do not implement until the idea is locked. |
+| **Brainstorming** | (now) Owner started hackathon day 2026-09-12 | Propose and refine **game** ideas. Do not implement until the idea is locked. |
 | **Development** | Idea is locked in | Build and deploy. The product **must include and use the Convex service**. Public demo URL + presenter QR code. |
 | **Project finished** | Development and deploy are complete | Stop building unless the owner asks for a change. |
 
 When the idea is locked, write it into this file (who it is for, what it does) so later agents inherit it.
+
+## Product direction (Brainstorming — not locked)
+
+Owner direction on 2026-09-12. **Do not implement** until the owner picks a mechanic and moves state to **Development**.
+
+| Locked | Still open |
+| --- | --- |
+| It is a **game**, not a poll/chat/utility. | Exact rules, theme, name, art. |
+| **Asynchronous multiplayer** — players need not be online at the same time. Turns / match state live in Convex. If both happen to be in the room, updates should still feel live (reactive queries). | Player count (1v1 vs party), win condition, session length. |
+| **Create or join game rooms** (reuse 4-char codes, links, QR). Keep `rooms` + `presence`. | Whether a room is one match, a lobby of matches, or a persistent table. |
+| Backend is **Convex** (DB + functions + realtime). Mobile web, anonymous session, no AI. | Auth beyond `localStorage` session. |
+
+**Who it is for:** hackathon audience + judges on phones; a presenter on a projector with QR.
+
+**What it does (once a mechanic is chosen):** someone creates a room, others join by code/QR, Convex stores the match, each player acts on their turn whenever they open the link, everyone watching sees the board update.
+
+Full options, Convex mapping, and demo story: [BRAINSTORM.md](./BRAINSTORM.md).
 
 ## Leaving preparation
 
@@ -63,7 +81,8 @@ Every task in this repo is work toward that hackathon demo. Before changing arch
 
 ## Layout (for agents)
 
-See [README.md](./README.md) for run/deploy commands. Short map:
+See [README.md](./README.md) for run/deploy commands. Product notebook:
+[BRAINSTORM.md](./BRAINSTORM.md). Short map:
 
 - `convex/schema.ts`, `convex/rooms.ts`, `convex/presence.ts`, `convex/reactions.ts` — backend
 - `convex/rooms.test.ts` — Convex function tests (`npm test`)
