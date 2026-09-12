@@ -6,7 +6,7 @@
 Last updated: 2026-09-12 (implementation slices written).
 
 Build order (do not skip): [IMPLEMENTATION.md](./IMPLEMENTATION.md).
-**Current slice: 3** — Matchmaker (slice 4 round engine is done).
+**Current slice: 5** — Bracket climb + result splashes.
 
 ## Locked product
 

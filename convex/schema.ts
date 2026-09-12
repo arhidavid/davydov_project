@@ -110,4 +110,10 @@ export default defineSchema({
   })
     .index("by_match_round", ["matchId", "roundIndex"])
     .index("by_match_round_session", ["matchId", "roundIndex", "sessionId"]),
+
+  // Singleton gather-wait generation so a 4-wait is invalidated when 8 queues.
+  matchmakerState: defineTable({
+    gatherGeneration: v.number(),
+    armed: v.boolean(),
+  }),
 });

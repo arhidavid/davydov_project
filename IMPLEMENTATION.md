@@ -4,9 +4,9 @@
 This file is the **build order**. Do not implement a later slice until the
 previous **required** slices are done (see [Dependencies](#dependencies)).
 
-**Current slice: 3** — Matchmaker pops 4 / 8 / 16 (still next). Slice **4**
-(round engine) is implemented. Update this line and the table in
-[AGENTS.md](./AGENTS.md) when a slice lands on `main`.
+**Current slice: 5** — Bracket climb + result splashes. Slices 3 and 4 are
+done. Update this line and the table in [AGENTS.md](./AGENTS.md) when a slice
+lands on `main`.
 
 v1 = slices **1–8**. Slice **9** is deploy. Slice **10** is stretch (fake
 players) — **do not start** until 1–8 work on phones.
@@ -144,6 +144,8 @@ Searching UI has **Cancel**. Late “start” from a second tab for the same
 
 ## Slice 3 — Matchmaker pops 4 / 8 / 16
 
+**Status:** done.
+
 **Demo after this:** N queued humans become a `royals` row + `royalPlayers` +
 first-round `matches`. Leftovers stay in `queue`. Dashboard shows the bracket
 seats. Phones’ `myStatus` becomes `{ kind: "inRoyal", royalId, matchId }`.
@@ -172,12 +174,11 @@ enough to test (e.g. FIFO seats 0–1, 2–3, …).
 opponent pick is hidden until both committed **or** the scheduled close;
 scores update; draws and miss rules match the spec.
 
-**Touch:** `convex/matches.ts`, `convex/rpsLogic.ts`, `throws` table (plus
-`royals` / `matches` rows so the engine has something to attach to; slice 3
-still owns matchmaking). Public mutation is `submitThrow` (`throw` is reserved
-in JS). `internal.closeRound` is scheduled at `pickDeadline` via
-`internal.armPicking`. After reveal, `internal.beginNextRound` starts the next
-10s window (slice 6 will call this after showing gestures).
+**Touch:** `convex/matches.ts`, `convex/rpsLogic.ts`, `throws` table. Public
+mutation is `submitThrow` (`throw` is reserved in JS). Matchmaker calls
+`internal.armPicking` so `closeRound` is scheduled at `pickDeadline`. After
+reveal, `internal.beginNextRound` starts the next 10s window (slice 6 will
+call this after showing gestures).
 
 **Rules to encode in helpers (unit-test these):**
 
