@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "convex/react";
 import { useEffect, useState } from "react";
 import { api } from "../convex/_generated/api.js";
 import { Home } from "./components/Home.js";
+import { Matched } from "./components/Matched.js";
 import { Searching } from "./components/Searching.js";
 import { getEmoji, getName, getSessionId } from "./lib/session.js";
 
@@ -60,6 +61,10 @@ export function App() {
         <p className="muted">Connecting…</p>
       </div>
     );
+  }
+
+  if (status.kind === "inRoyal") {
+    return <Matched emoji={getEmoji()} />;
   }
 
   if (status.kind === "queued") {
