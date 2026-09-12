@@ -155,7 +155,9 @@ export function Match({
             {seconds}
           </div>
           <p className="muted match-hint">
-            {view.yourGesture
+            {view.opponentReconnecting
+              ? "Opponent reconnecting… match waits."
+              : view.yourGesture
               ? "Locked in. Waiting for opponent…"
               : view.opponentHasThrown
                 ? "Opponent is ready. Throw!"

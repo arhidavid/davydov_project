@@ -12,6 +12,7 @@ import {
   onNewEnqueue,
   splashForSession,
 } from "./matchmaking.js";
+import { touchPresence } from "./disconnect.js";
 
 const queuedStatus = v.object({
   kind: v.literal("queued"),
@@ -137,12 +138,7 @@ export const heartbeat = mutation({
   returns: v.object({ ok: v.boolean() }),
   handler: async (ctx, args) => {
     const sessionId = requireSessionId(args.sessionId);
-    const existing = await queueRowBySession(ctx, sessionId);
-    if (!existing) {
-      return { ok: false };
-    }
-    await ctx.db.patch(existing._id, { lastSeen: Date.now() });
-    return { ok: true };
+    return await touchPresence(ctx, sessionId);
   },
 });
 

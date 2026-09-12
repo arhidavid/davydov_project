@@ -32,13 +32,22 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    if (status?.kind !== "queued") return;
+    if (status?.kind !== "queued" && status?.kind !== "inRoyal") return;
     const beat = () => {
       void heartbeat({ sessionId });
     };
     beat();
     const id = window.setInterval(beat, HEARTBEAT_MS);
-    return () => window.clearInterval(id);
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        beat();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
   }, [heartbeat, sessionId, status?.kind]);
 
   async function startMatchmaking() {

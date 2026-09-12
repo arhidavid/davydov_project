@@ -9,6 +9,7 @@ import {
   type QueryCtx,
 } from "./_generated/server";
 import { applyMatchComplete } from "./bracket.js";
+import { isInDisconnectGrace, matchHasDisconnectGrace } from "./disconnect.js";
 import {
   PICK_WINDOW_MS,
   nextMatchState,
@@ -58,6 +59,7 @@ const viewValidator = v.union(
     yourGesture: v.union(gestureValidator, v.null()),
     opponentGesture: v.union(gestureValidator, v.null()),
     opponentHasThrown: v.boolean(),
+    opponentReconnecting: v.boolean(),
   }),
 );
 
@@ -214,6 +216,9 @@ export const closeRound = internalMutation({
     if (match.phase !== "picking" || match.roundIndex !== args.roundIndex) {
       return null;
     }
+    if (await matchHasDisconnectGrace(ctx, match)) {
+      return null;
+    }
 
     const rows = await throwsForRound(ctx, match._id, match.roundIndex);
     const bySession = new Map(rows.map((row) => [row.sessionId, row.gesture]));
@@ -313,6 +318,10 @@ export const submitThrow = mutation({
       gesture: args.gesture,
     });
 
+    if (await matchHasDisconnectGrace(ctx, match)) {
+      return null;
+    }
+
     const opponent = await throwForPlayer(
       ctx,
       match._id,
@@ -357,11 +366,14 @@ export const view = query({
     const picking = match.phase === "picking";
     const youAreA = sessionId === match.playerA;
     const you = await seatIdentity(ctx, match.royalId, sessionId);
-    const opponent = await seatIdentity(
-      ctx,
-      match.royalId,
-      otherPlayer(match, sessionId),
-    );
+    const opponentSessionId = otherPlayer(match, sessionId);
+    const opponent = await seatIdentity(ctx, match.royalId, opponentSessionId);
+    const opponentSeat = (
+      await ctx.db
+        .query("royalPlayers")
+        .withIndex("by_session", (q) => q.eq("sessionId", opponentSessionId))
+        .collect()
+    ).find((row) => row.royalId === match.royalId);
 
     return {
       matchId: match._id,
@@ -385,6 +397,7 @@ export const view = query({
       yourGesture: yours?.gesture ?? null,
       opponentGesture: picking ? null : (opponentRow?.gesture ?? null),
       opponentHasThrown: opponentRow !== null,
+      opponentReconnecting: isInDisconnectGrace(opponentSeat ?? null),
     };
   },
 });

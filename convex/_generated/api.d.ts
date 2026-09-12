@@ -9,6 +9,7 @@
  */
 
 import type * as bracket from "../bracket.js";
+import type * as disconnect from "../disconnect.js";
 import type * as matches from "../matches.js";
 import type * as matchmaking from "../matchmaking.js";
 import type * as presence from "../presence.js";
@@ -25,6 +26,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   bracket: typeof bracket;
+  disconnect: typeof disconnect;
   matches: typeof matches;
   matchmaking: typeof matchmaking;
   presence: typeof presence;
