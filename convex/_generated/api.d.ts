@@ -12,10 +12,7 @@ import type * as bracket from "../bracket.js";
 import type * as disconnect from "../disconnect.js";
 import type * as matches from "../matches.js";
 import type * as matchmaking from "../matchmaking.js";
-import type * as presence from "../presence.js";
 import type * as queue from "../queue.js";
-import type * as reactions from "../reactions.js";
-import type * as rooms from "../rooms.js";
 import type * as rpsLogic from "../rpsLogic.js";
 
 import type {
@@ -29,10 +26,7 @@ declare const fullApi: ApiFromModules<{
   disconnect: typeof disconnect;
   matches: typeof matches;
   matchmaking: typeof matchmaking;
-  presence: typeof presence;
   queue: typeof queue;
-  reactions: typeof reactions;
-  rooms: typeof rooms;
   rpsLogic: typeof rpsLogic;
 }>;
 

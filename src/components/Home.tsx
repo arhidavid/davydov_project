@@ -44,6 +44,11 @@ export function Home({
         <div className="hero-badge">live tournament · powered by Convex</div>
         <h1 className="hero-title">KPM Royale</h1>
         <p className="hero-tagline">Kamen! Papir! Makaze! ✊ ✋ ✌️</p>
+        <div className="hero-gestures" aria-hidden="true">
+          <span>✊</span>
+          <span>✋</span>
+          <span>✌️</span>
+        </div>
         <p className="hero-sub">
           Tap in from your phone. Convex matchmakes a 4, 8, or 16-player royal.
         </p>

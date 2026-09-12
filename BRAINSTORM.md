@@ -6,7 +6,7 @@
 Last updated: 2026-09-12 (implementation slices written).
 
 Build order (do not skip): [IMPLEMENTATION.md](./IMPLEMENTATION.md).
-**Current slice: 8** — Polish. Slice 7 is done.
+**Current slice: 9** — Deploy. Slice 8 is done.
 
 ## Locked product
 

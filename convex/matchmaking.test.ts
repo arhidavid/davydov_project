@@ -138,6 +138,13 @@ describe("matchmaker", () => {
     expect(started[0]!.size).toBe(8);
     const matches = await t.run(async (ctx) => ctx.db.query("matches").collect());
     expect(matches).toHaveLength(4);
+    const bySlot = [...matches].sort((a, b) => a.slot - b.slot);
+    expect(bySlot.map((m) => [m.playerA, m.playerB])).toEqual([
+      ["sess-0", "sess-1"],
+      ["sess-2", "sess-3"],
+      ["sess-4", "sess-5"],
+      ["sess-6", "sess-7"],
+    ]);
     expect(await queueSessions(t)).toHaveLength(0);
   });
 
@@ -149,6 +156,18 @@ describe("matchmaker", () => {
     expect(started[0]!.size).toBe(16);
     const matches = await t.run(async (ctx) => ctx.db.query("matches").collect());
     expect(matches).toHaveLength(8);
+    const bySlot = [...matches].sort((a, b) => a.slot - b.slot);
+    expect(bySlot[0]).toMatchObject({
+      playerA: "sess-0",
+      playerB: "sess-1",
+      roundSize: 16,
+      slot: 0,
+    });
+    expect(bySlot[7]).toMatchObject({
+      playerA: "sess-14",
+      playerB: "sess-15",
+      slot: 7,
+    });
     expect(await queueSessions(t)).toHaveLength(0);
   });
 

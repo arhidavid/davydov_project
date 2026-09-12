@@ -4,7 +4,7 @@
 This file is the **build order**. Do not implement a later slice until the
 previous **required** slices are done (see [Dependencies](#dependencies)).
 
-**Current slice: 8** — Polish. Slice 7 is done. Update this line and the
+**Current slice: 9** — Deploy. Slice 8 is done. Update this line and the
 table in [AGENTS.md](./AGENTS.md) when a slice lands on `main`.
 
 v1 = slices **1–8**. Slice **9** is deploy. Slice **10** is stretch (fake
@@ -53,9 +53,7 @@ home button wiring. After that, stay sequential.
 
 ## Shared data model (use this; do not invent a second one)
 
-Keep existing `rooms` / `players` / `reactions` tables until slice 8 so the
-skeleton still typechecks. **Do not** build the product on `rooms.create` or
-`?r=CODE`. New tables:
+Product tables (rooms / tap-counter / join codes retired in slice 8):
 
 | Table | Role |
 | --- | --- |
@@ -253,6 +251,8 @@ reconnect within 20s. Splash for the leaver is **you lost**.
 ---
 
 ## Slice 8 — Polish, tests, retire skeleton loop
+
+**Status:** done.
 
 **Demo after this:** app looks like a party game, not a rooms demo. README
 describes KPM Royale. Skeleton tap/reactions/create-join are gone from the
