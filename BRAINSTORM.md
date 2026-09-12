@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (cancel matchmaking).
+Last updated: 2026-09-12 (both-gone = random advance).
 
 ## Locked product
 
@@ -108,7 +108,7 @@ royal → throws in the dashboard → losers get **you lost** → champion gets
 | On win (not final) | Stay; wait for the next pair (winner vs winner). |
 | Champion | Splash: **you are a winner**. Button: **Back to main menu**. |
 | Identity | Keep current behavior: on first visit, **random adjective+noun name** and **random emoji**, persisted in `localStorage`. Player can **change** name and emoji on the main menu before matchmaking. No accounts. |
-| Disconnect | **20 second grace** to reconnect (same `sessionId`). Match waits. If they are still gone when grace ends: **leaver loses the match**, opponent advances; leaver splash is **you lost**. |
+| Disconnect | **20 second grace** to reconnect (same `sessionId`). Match waits. If one is still gone when grace ends: **that leaver loses**, opponent advances; leaver splash is **you lost**. If **both** are still gone: Convex picks a **random player in the pair to advance**; the other is eliminated (**you lost**). |
 
 ## Bracket picture (8 humans, example)
 
@@ -161,8 +161,7 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. If **both** players in a pair are gone past the 20s grace: both lose and the
-   other bracket pair waits, or skip / random advance?
+1. UI language: English for buttons/splashes (current copy), Serbian throughout, or mix (Serbian title, English chrome)?
 
 ## Agent rules
 
