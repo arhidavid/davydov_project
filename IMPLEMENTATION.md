@@ -4,7 +4,7 @@
 This file is the **build order**. Do not implement a later slice until the
 previous **required** slices are done (see [Dependencies](#dependencies)).
 
-**Current slice: 2** — Convex matchmaking queue. Update this line and the
+**Current slice: 3** — Matchmaker pops 4 / 8 / 16. Update this line and the
 table in [AGENTS.md](./AGENTS.md) when a slice lands on `main`.
 
 v1 = slices **1–8**. Slice **9** is deploy. Slice **10** is stretch (fake

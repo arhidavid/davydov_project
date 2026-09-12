@@ -9,6 +9,7 @@
  */
 
 import type * as presence from "../presence.js";
+import type * as queue from "../queue.js";
 import type * as reactions from "../reactions.js";
 import type * as rooms from "../rooms.js";
 
@@ -20,6 +21,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   presence: typeof presence;
+  queue: typeof queue;
   reactions: typeof reactions;
   rooms: typeof rooms;
 }>;

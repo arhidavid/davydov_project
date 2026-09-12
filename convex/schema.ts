@@ -36,4 +36,16 @@ export default defineSchema({
     emoji: v.string(),
     createdAt: v.number(),
   }).index("by_room_time", ["roomId", "createdAt"]),
+
+  // Humans waiting to be matchmade into a 4/8/16 royal. Unique per sessionId
+  // (enforced in enqueue). Slice 3 pops FIFO via by_joinedAt.
+  queue: defineTable({
+    sessionId: v.string(),
+    name: v.string(),
+    emoji: v.string(),
+    joinedAt: v.number(),
+    lastSeen: v.number(),
+  })
+    .index("by_sessionId", ["sessionId"])
+    .index("by_joinedAt", ["joinedAt"]),
 });

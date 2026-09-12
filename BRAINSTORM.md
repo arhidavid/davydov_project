@@ -6,7 +6,7 @@
 Last updated: 2026-09-12 (implementation slices written).
 
 Build order (do not skip): [IMPLEMENTATION.md](./IMPLEMENTATION.md).
-**Current slice: 2** — Convex queue.
+**Current slice: 3** — Matchmaker.
 
 ## Locked product
 

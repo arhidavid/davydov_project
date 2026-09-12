@@ -1,9 +1,12 @@
-import { getEmoji, getName } from "../lib/session.js";
-
-export function Searching({ onCancel }: { onCancel: () => void }) {
-  const name = getName();
-  const emoji = getEmoji();
-
+export function Searching({
+  name,
+  emoji,
+  onCancel,
+}: {
+  name: string;
+  emoji: string;
+  onCancel: () => void;
+}) {
   return (
     <div className="screen center searching">
       <div className="searching-pulse" aria-hidden="true">

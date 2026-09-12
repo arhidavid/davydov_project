@@ -54,14 +54,14 @@ Details: [BRAINSTORM.md](./BRAINSTORM.md). Build order:
 
 ## Implementation slices
 
-**Current slice: 2** (Convex queue). Agents implement **one** required
+**Current slice: 3** (Matchmaker). Agents implement **one** required
 slice per change, then mark it done here and in `IMPLEMENTATION.md`.
 
 | Slice | What | Status |
 | --- | --- | --- |
 | 1 | Home: KPM Royale branding, editable identity, **Start matchmaking**; drop create/join rooms | **done** |
-| 2 | Convex `queue`: enqueue / cancel / heartbeat / `myStatus` | **next** |
-| 3 | Matchmaker: wait 20s at 4 and 8; 16 starts now; create `royals` + pairs | pending |
+| 2 | Convex `queue`: enqueue / cancel / heartbeat / `myStatus` | **done** |
+| 3 | Matchmaker: wait 20s at 4 and 8; 16 starts now; create `royals` + pairs | **next** |
 | 4 | Round engine: 10s secret throws, miss/draw/win, extras, 10-draw random | pending |
 | 5 | Bracket climb + `you lost` / `you are a winner` **data** | pending |
 | 6 | Phone UI for searching → match → splash → main menu | pending |
@@ -115,7 +115,7 @@ See [README.md](./README.md) for run/deploy commands. Product spec:
 [BRAINSTORM.md](./BRAINSTORM.md). Build order:
 [IMPLEMENTATION.md](./IMPLEMENTATION.md). Short map:
 
-- `convex/schema.ts`, `convex/rooms.ts`, `convex/presence.ts`, `convex/reactions.ts` — backend
+- `convex/schema.ts`, `convex/queue.ts`, `convex/rooms.ts`, `convex/presence.ts`, `convex/reactions.ts` — backend
 - `convex/rooms.test.ts` — Convex function tests (`npm test`)
 - `src/components/Home.tsx`, `src/components/Room.tsx` — frontend
 - `qr/` — Cloudflare Worker for `qr.davydov-pr.com` (projector QR; env-retargetable)
