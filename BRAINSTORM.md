@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (gather window locked).
+Last updated: 2026-09-12 (20s gather window).
 
 ## Locked product
 
@@ -19,9 +19,10 @@ codes, no spectators.
 
 1. Open the public URL (QR or link). Home is one button: **Start matchmaking**.
 2. Convex queues the player. After **4** real players are waiting, the matcher
-   **waits a short time** in case more join (for 8 or 16), then starts the
-   **largest exact** bracket (4, 8, or 16). Odd counts never start. 16 queued
-   starts immediately (nothing larger to wait for).
+   waits **20 seconds** in case more join (for 8 or 16), then starts the
+   **largest exact** bracket (4, 8, or 16). Hitting **8** during that wait
+   starts another **20 seconds** in case a 16 can form. Hitting **16** starts
+   immediately. Odd counts never start.
 3. Each pair plays **3 rapid rounds**. **10 seconds** to pick each round.
 4. **Winner vs winner** until one champion.
 5. A player who **loses is booted** to the start screen (same single button).
@@ -82,7 +83,7 @@ can queue again.
 | --- | --- |
 | Entry | **Server matchmaking only.** Home = **Start matchmaking**. QR opens that screen. |
 | Bracket sizes | **4, 8, or 16** only. Never 2, 3, 5, … |
-| When to start (v1) | **Locked: wait a short time** after 4 (and after 8) so more people can join. Then start the **largest exact** size: 16 if 16+, else 8 if 8–15, else 4 if 4–7. Leftovers stay queued. **16 starts immediately** (cap). Exact window length still open. |
+| When to start (v1) | After **4** queued: wait **20 seconds**, then largest exact 4/8/16. After **8** queued: wait **20 seconds** more for a 16. **16 starts immediately.** Leftovers stay queued. |
 | 17+ humans | Start a **16**; leftovers stay queued. |
 | Fake players | **Out of v1.** If time: pad-up table above. Do not build bots in the first slice. |
 | Odd players | **Impossible** at royal start. Matcher never commits an odd roster. |
@@ -146,10 +147,9 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. **How long** is the gather window? (asked next)
-2. Sudden-death on 3-round ties?
-3. Champion: brief win splash, then the same button?
-4. Display name on first visit, or emoji-only until later?
+1. Sudden-death on 3-round ties?
+2. Champion: brief win splash, then the same button?
+3. Display name on first visit, or emoji-only until later?
 
 ## Agent rules
 
