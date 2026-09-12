@@ -7,10 +7,11 @@ import {
   type QueryCtx,
 } from "./_generated/server";
 
+import { PICK_WINDOW_MS } from "./rpsLogic";
+
 /** After 4 (and again after 8) queued humans, wait this long before starting. */
 export const GATHER_WAIT_MS = 20_000;
 
-const PICK_WINDOW_MS = 10_000;
 const QUEUE_SCAN = 32;
 
 export type RoyalSize = 4 | 8 | 16;
@@ -122,7 +123,7 @@ async function popRoyal(
     if (!playerA || !playerB) {
       throw new Error("Odd pairing is impossible");
     }
-    await ctx.db.insert("matches", {
+    const matchId = await ctx.db.insert("matches", {
       royalId,
       roundSize: size,
       slot,
@@ -135,6 +136,11 @@ async function popRoyal(
       drawStreak: 0,
       pickDeadline: now + PICK_WINDOW_MS,
     });
+    await ctx.scheduler.runAfter(
+      PICK_WINDOW_MS,
+      internal.matches.closeRound,
+      { matchId, roundIndex: 1 },
+    );
   }
   return royalId;
 }

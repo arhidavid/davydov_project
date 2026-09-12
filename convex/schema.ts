@@ -98,6 +98,19 @@ export default defineSchema({
     .index("by_royal", ["royalId"])
     .index("by_royal_and_phase", ["royalId", "phase"]),
 
+  throws: defineTable({
+    matchId: v.id("matches"),
+    roundIndex: v.number(),
+    sessionId: v.string(),
+    gesture: v.union(
+      v.literal("rock"),
+      v.literal("paper"),
+      v.literal("scissors"),
+    ),
+  })
+    .index("by_match_round", ["matchId", "roundIndex"])
+    .index("by_match_round_session", ["matchId", "roundIndex", "sessionId"]),
+
   // Singleton gather-wait generation so a 4-wait is invalidated when 8 queues.
   matchmakerState: defineTable({
     gatherGeneration: v.number(),
