@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (extra rounds until a winner).
+Last updated: 2026-09-12 (win/loss splash).
 
 ## Locked product
 
@@ -27,8 +27,10 @@ codes, no spectators.
    round draw scores nothing. If the match is still tied after 3, they play
    **extra rounds until someone wins a round**.
 4. **Winner vs winner** until one champion.
-5. A player who **loses is booted** to the start screen (same single button).
-   They are not spectators.
+5. When a player is **eliminated**, they leave the royal (no spectate) and see
+   a splash: **you lost**, button **Back to main menu**. The **champion** sees
+   the same layout with **you are a winner** and **Back to main menu**. Main
+   menu is the start screen (**Start matchmaking**).
 
 This is **synchronous party play**. Async correspondence is **out**. Player
 create/join rooms is **out**.
@@ -72,12 +74,12 @@ Until then, v1 waits for a **full** 4 / 8 / 16 of humans. 1–3 stay in queue.
   10s window ends — **server-side**.
 - **Parallel pairs:** all round-1 matches resolve together; dashboard shows
   `matches` / `throws`.
-- **Boot on loss:** mutation removes the loser from the royal; their query goes
-  empty and the UI is the start button again.
+- **Result splash:** loser / champion is out of the royal; UI shows copy +
+  **Back to main menu**, not a spectator board.
 
 Demo: projector QR → everyone taps **Start matchmaking** → Convex fills a 4/8/16
-royal → throws in the dashboard → losers snap back to home → champion, then they
-can queue again.
+royal → throws in the dashboard → losers get **you lost** → champion gets
+**you are a winner** → **Back to main menu**.
 
 ## Proposed rules (defaults — confirm or strike)
 
@@ -94,9 +96,9 @@ can queue again.
 | Round draw | No point. If the pair is still tied after 3 rounds, **extra rounds until someone wins a round** (same 10s pick). |
 | Pick window | **10 seconds**. Both pick in secret. Window end or both picked → reveal. Missed pick = **random** throw. Timer via Convex scheduler, not `Date.now()` in queries. |
 | Reveal | Three big buttons (✊ ✋ ✌️), then both gestures + who won the round. |
-| On loss | **Boot to start screen.** No spectate, no linger in the royal. |
+| On loss | Out of the royal (no spectate). Splash: **you lost**. Button: **Back to main menu**. |
 | On win (not final) | Stay; wait for the next pair (winner vs winner). |
-| Champion | Short win state, then the same start screen / button (no lobby to hang in). |
+| Champion | Splash: **you are a winner**. Button: **Back to main menu**. |
 | Identity | Anonymous `sessionId` + display name + emoji. No accounts. |
 
 ## Bracket picture (8 humans, example)
@@ -104,10 +106,10 @@ can queue again.
 ```
 Start matchmaking → Convex queue → pop 8
   Round of 8: four pairs, 3 rounds each (10s picks)
-  Losers → home (Start matchmaking)
+  Losers → "you lost" → Back to main menu
   Round of 4: two pairs
   Final: two remaining
-  Champion → home after the beat
+  Champion → "you are a winner" → Back to main menu
 ```
 
 16 = one extra round of pairs. 4 = two pairs then a final.
@@ -143,14 +145,14 @@ Rules live in Convex. Clients send `enqueue` and `rock | paper | scissors`.
 1. Projector QR → public app (start screen).
 2. Audience taps **Start matchmaking**; dashboard shows the queue growing.
 3. Convex starts a 4, 8, or 16 royal; phones jump into pair UI.
-4. 10s throws; losers return to the button; winners climb.
+4. 10s throws; eliminated players see **you lost**; champion sees **you are a
+   winner**; both tap **Back to main menu**.
 
 If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. Champion: brief win splash, then the same button?
-2. Display name on first visit, or emoji-only until later?
+1. Display name / emoji on first visit, or emoji-only until later?
 
 ## Agent rules
 

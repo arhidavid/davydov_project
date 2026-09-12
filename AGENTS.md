@@ -31,19 +31,20 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **RPS Royal** — live tournament, not async. | Champion splash vs instant home. |
-| **Server-side matchmaking.** No player create/join rooms or join codes. | Display name / emoji on first visit. |
-| Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. | Art / final name. |
+| **RPS Royal** — live tournament, not async. | Display name / emoji on first visit. |
+| **Server-side matchmaking.** No player create/join rooms or join codes. | Art / final name. |
+| Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. |  |
 | After **4** (and **8**) queued, wait **20 seconds**; then largest exact 4/8/16. **16 starts immediately.** |  |
 | Pairs play **3 rapid rounds** (10s each). If still tied, **extra rounds until someone wins**. Winner vs winner. |  |
-| **Losers boot** to a start screen with one button: **Start matchmaking**. No spectate. |  |
+| End-of-run splash: champion **you are a winner**, loser **you lost**; both have **Back to main menu**. No spectate. |  |
 | **v1 = real players only.** Fake players only if time. Convex. No AI, no accounts. |  |
 
 **Who it is for:** hackathon audience + judges on phones; a presenter with a projector QR.
 
 **What it does:** scan/open the app, tap **Start matchmaking**. Convex queues
-real players and starts a 4/8/16 royal, runs 10s RPS rounds, winners climb,
-losers land back on the same button.
+real players and starts a 4/8/16 royal, runs 10s RPS rounds, winners climb.
+Eliminated players see **you lost**; the champion sees **you are a winner**.
+Both get **Back to main menu**.
 
 Details: [BRAINSTORM.md](./BRAINSTORM.md).
 
