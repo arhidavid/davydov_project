@@ -11,8 +11,8 @@ That file is loaded into every new agent session. The always-apply Cursor rule i
 `.cursor/rules/project-goal.mdc`.
 
 **Current state: Brainstorming** (hackathon day started 2026-09-12). Direction:
-**Rock, Paper, Scissors Royal** — Convex **matchmaking** into live 4/8/16
-brackets of **real players**, **20s wait** after 4/8 so more can join,
+**KPM Royale** (*Kamen! Papir! Makaze!* ✊ ✋ ✌️) — Convex **matchmaking** into
+live 4/8/16 brackets of **real players**, **20s wait** after 4/8 so more can join,
 10s RPS rounds, **you lost** / **you are a winner** then **Back to main menu**.
 No player rooms, no spectate. Fake players only if time. See
 [BRAINSTORM.md](./BRAINSTORM.md). Do not implement until state moves to

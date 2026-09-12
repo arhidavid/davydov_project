@@ -1,13 +1,14 @@
-# Brainstorm: Rock, Paper, Scissors Royal
+# Brainstorm: KPM Royale
 
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (identity = random + editable).
+Last updated: 2026-09-12 (name: KPM Royale).
 
 ## Locked product
 
-**Name (working):** Rock, Paper, Scissors Royal (RPS Royal).
+**Name:** **KPM Royale**
+**Tagline:** Kamen! Papir! Makaze! ✊ ✋ ✌️
 
 **Who it is for:** hackathon audience on phones + a presenter with a projector QR.
 
@@ -154,7 +155,7 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. Final product name on the home screen (working title is RPS Royal)?
+1. If someone does not pick in 10s: **random throw** (current default), auto-loss, or wait?
 
 ## Agent rules
 

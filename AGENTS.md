@@ -3,11 +3,12 @@
 This is a **Cursor Belgrade Hackathon** project (Grok Bot Serbia Hackathon, 12 September 2026).
 The category to win is [Convex](https://www.convex.dev/).
 
-The product is **Rock, Paper, Scissors Royal**: live matchmade tournaments on
-Convex (brackets of **4 / 8 / 16** real players). Players do **not** create or
-join rooms. Fake players are **out of scope** unless time remains. Details:
-[BRAINSTORM.md](./BRAINSTORM.md). A rooms skeleton already lives in this repo
-(Convex + Vite + React). Do not replace it with a different backend.
+The product is **KPM Royale** (*Kamen! Papir! Makaze!* ✊ ✋ ✌️): live
+matchmade rock-paper-scissors tournaments on Convex (brackets of **4 / 8 / 16**
+real players). Players do **not** create or join rooms. Fake players are **out
+of scope** unless time remains. Details: [BRAINSTORM.md](./BRAINSTORM.md).
+A rooms skeleton already lives in this repo (Convex + Vite + React). Do not
+replace it with a different backend.
 
 ## Project state
 
@@ -31,7 +32,7 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **RPS Royal** — live tournament, not async. | Art / final name on the home screen. |
+| **KPM Royale** — *Kamen! Papir! Makaze!* ✊ ✋ ✌️. Live tournament, not async. | Missed pick: random throw vs something else. |
 | **Server-side matchmaking.** No player create/join rooms or join codes. |  |
 | Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. |  |
 | After **4** (and **8**) queued, wait **20 seconds**; then largest exact 4/8/16. **16 starts immediately.** |  |
@@ -42,10 +43,10 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 **Who it is for:** hackathon audience + judges on phones; a presenter with a projector QR.
 
-**What it does:** scan/open the app, tap **Start matchmaking**. Convex queues
-real players and starts a 4/8/16 royal, runs 10s RPS rounds, winners climb.
-Eliminated players see **you lost**; the champion sees **you are a winner**.
-Both get **Back to main menu**.
+**What it does:** scan/open **KPM Royale**, tap **Start matchmaking**. Convex
+queues real players and starts a 4/8/16 royal, runs 10s RPS rounds, winners
+climb. Eliminated players see **you lost**; the champion sees **you are a
+winner**. Both get **Back to main menu**.
 
 Details: [BRAINSTORM.md](./BRAINSTORM.md).
 
