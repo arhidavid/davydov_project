@@ -13,7 +13,7 @@ That file is loaded into every new agent session. The always-apply Cursor rule i
 **Current state: Development** (owner moved 2026-09-12). Product: **KPM Royale**
 (*Kamen! Papir! Makaze!* ✊ ✋ ✌️) — Convex **matchmaking** into live 4/8/16
 brackets of **real players**. Spec: [BRAINSTORM.md](./BRAINSTORM.md). Build
-order: [IMPLEMENTATION.md](./IMPLEMENTATION.md) (**current slice: 1**). Fake
+order: [IMPLEMENTATION.md](./IMPLEMENTATION.md) (**current slice: 2**). Fake
 players only if time after slices 1–8.
 
 ---

@@ -54,13 +54,13 @@ Details: [BRAINSTORM.md](./BRAINSTORM.md). Build order:
 
 ## Implementation slices
 
-**Current slice: 1** (Home + identity). Agents implement **one** required
+**Current slice: 2** (Convex queue). Agents implement **one** required
 slice per change, then mark it done here and in `IMPLEMENTATION.md`.
 
 | Slice | What | Status |
 | --- | --- | --- |
-| 1 | Home: KPM Royale branding, editable identity, **Start matchmaking**; drop create/join rooms | **next** |
-| 2 | Convex `queue`: enqueue / cancel / heartbeat / `myStatus` | pending |
+| 1 | Home: KPM Royale branding, editable identity, **Start matchmaking**; drop create/join rooms | **done** |
+| 2 | Convex `queue`: enqueue / cancel / heartbeat / `myStatus` | **next** |
 | 3 | Matchmaker: wait 20s at 4 and 8; 16 starts now; create `royals` + pairs | pending |
 | 4 | Round engine: 10s secret throws, miss/draw/win, extras, 10-draw random | pending |
 | 5 | Bracket climb + `you lost` / `you are a winner` **data** | pending |
