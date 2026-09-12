@@ -4,7 +4,7 @@
 This file is the **build order**. Do not implement a later slice until the
 previous **required** slices are done (see [Dependencies](#dependencies)).
 
-**Current slice: 1** — Home + identity (no rooms). Update this line and the
+**Current slice: 2** — Convex matchmaking queue. Update this line and the
 table in [AGENTS.md](./AGENTS.md) when a slice lands on `main`.
 
 v1 = slices **1–8**. Slice **9** is deploy. Slice **10** is stretch (fake
@@ -96,11 +96,13 @@ Timers (lock these constants; do not “tune” them):
 
 ## Slice 1 — Home + identity (drop room UX)
 
+**Status:** done.
+
 **Demo after this:** scan/open the app, see **KPM Royale** / **Kamen! Papir!
 Makaze! ✊ ✋ ✌️**, edit name + emoji, tap **Start matchmaking** (may no-op or
 navigate to a “Searching…” stub). No create/join, no room code, no tap counter.
 
-**Touch:** `src/components/Home.tsx`, `src/App.tsx`, `src/index.css` (as
+**Touch:** `src/components/Home.tsx`, `src/App.tsx`, `src/styles.css` (as
 needed), stop routing on `?r=CODE` as the product. Reuse `src/lib/session.ts`
 (already random + editable persist).
 

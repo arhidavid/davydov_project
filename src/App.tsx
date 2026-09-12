@@ -1,40 +1,30 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Home } from "./components/Home.js";
-import { Room } from "./components/Room.js";
+import { Searching } from "./components/Searching.js";
 import { getSessionId } from "./lib/session.js";
 
-function roomFromUrl(): string | null {
-  const code = new URLSearchParams(window.location.search).get("r");
-  return code ? code.toUpperCase() : null;
+type Screen = "home" | "searching";
+
+function stripRoomQuery() {
+  const url = new URL(window.location.href);
+  if (!url.searchParams.has("r")) return;
+  url.searchParams.delete("r");
+  const next = `${url.pathname}${url.search}${url.hash}`;
+  window.history.replaceState({}, "", next);
 }
 
 export function App() {
-  const sessionId = getSessionId();
-  const [code, setCode] = useState<string | null>(() => roomFromUrl());
+  // Keep session id allocated on first paint so later slices can enqueue it.
+  getSessionId();
+  const [screen, setScreen] = useState<Screen>("home");
 
   useEffect(() => {
-    const onPop = () => setCode(roomFromUrl());
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
+    stripRoomQuery();
   }, []);
 
-  const enterRoom = useCallback((next: string) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("r", next);
-    window.history.pushState({}, "", url);
-    setCode(next);
-  }, []);
+  if (screen === "searching") {
+    return <Searching onCancel={() => setScreen("home")} />;
+  }
 
-  const leaveRoom = useCallback(() => {
-    const url = new URL(window.location.href);
-    url.searchParams.delete("r");
-    window.history.pushState({}, "", url);
-    setCode(null);
-  }, []);
-
-  return code ? (
-    <Room code={code} sessionId={sessionId} onLeave={leaveRoom} />
-  ) : (
-    <Home sessionId={sessionId} onEnter={enterRoom} />
-  );
+  return <Home onStartMatchmaking={() => setScreen("searching")} />;
 }
