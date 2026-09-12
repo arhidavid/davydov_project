@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (matchmaking pass).
+Last updated: 2026-09-12 (pad-up fake players).
 
 ## Locked product
 
@@ -18,9 +18,9 @@ codes, no spectators.
 **Loop (owner, 2026-09-12):**
 
 1. Open the public URL (QR or link). Home is one button: **Start matchmaking**.
-2. Convex queues the player. When a legal bracket can start, the server opens a
-   royal and **pairs** everyone. Odd counts never start — the matcher only pops
-   **4 / 8 / 16**.
+2. Convex queues the player. The matcher starts a royal of **4, 8, or 16**,
+   **padding up** with fake players to the next of those sizes. Odd counts never
+   start.
 3. Each pair plays **3 rapid rounds**. **10 seconds** to pick each round.
 4. **Winner vs winner** until one champion.
 5. A player who **loses is booted** to the start screen (same single button).
@@ -38,12 +38,27 @@ create/join rooms is **out**.
 - 5-second pick window (now **10 seconds**).
 - Grid / dungeon / word / card shortlist.
 
-## Stretch (not v1)
+## Fake players (locked pad rule)
 
-**Fake players.** Server-side bots that fill a 4 / 8 / 16 bracket when too few
-humans are queued (demo with 1–3 phones still runs). They throw on the timer
-(random). They are not a home-screen mode. Do not build until the human matcher
-+ royal loop works — then pad the queue to the next legal size.
+Not a home-screen mode. Convex inserts bots into the **same** royal so the
+roster is always 4, 8, or 16. Bots throw on the 10s timer (random). Human loss
+→ boot home. Fake loss → bot is dropped; no start screen.
+
+**Pad to nearest size up** (owner, 2026-09-12):
+
+| Real players in the committed batch | Bracket | Fake players |
+| --- | --- | --- |
+| 1, 2, 3 | 4 | 3, 2, 1 |
+| 4 | 4 | 0 |
+| 5, 6, 7 | 8 | 3, 2, 1 |
+| 8 | 8 | 0 |
+| 9 … 15 | 16 | 7 … 1 |
+| 16 | 16 | 0 |
+| 17+ | pop **16 humans**, 0 fakes; the rest stay in queue (next batch pads the same way) |
+
+Build order when Development starts: human royal loop first, then this padding
+(so a full 4/8/16 of humans works before bots). The pad rule is **in scope**,
+not a maybe.
 
 ## Why this shows Convex
 
@@ -68,8 +83,8 @@ can queue again.
 | --- | --- |
 | Entry | **Server matchmaking only.** Home = **Start matchmaking**. QR opens that screen. |
 | Bracket sizes | **4, 8, or 16** only. Never 2, 3, 5, … |
-| When to start | Take the **largest** legal size that is ready: **16 immediately** if 16+ queued; else **8** if 8–15; else **4** if 4–7. If fewer than 4 humans: wait (v1) or pad with **fake players** (stretch). People left over (e.g. 10 → pop 8) stay in queue. |
-| Why not “start 4 as soon as 4 exist” | That would starve 8- and 16-person royals. Prefer a short **queue window** (e.g. ~20s after the 4th joiner) to try to grow to 8/16, then start the largest legal size. Strike if you want instant 4s. |
+| When to start / pad | When the matcher **commits**, size = next of {4, 8, 16} **≥** human count (cap 16). Fakes fill the gap. **Do not** pad 1→4 the instant the first player queues, or 8- and 16-human royals never happen. Proposed: a short **queue window**, then commit and pad whatever humans are there (3 humans → 1 fake → 4; 5 humans → 3 fakes → 8). Strike the window if you want instant pad. |
+| 17+ humans | Start a **16** with no fakes; leftovers stay queued. |
 | Odd players | **Impossible** at royal start. Matcher never commits an odd roster. |
 | Late join | New taps go to the **queue**, not into a royal already playing. |
 | A match | **Exactly 3 rounds**. Classic RPS. Score = rounds won. |
@@ -80,7 +95,7 @@ can queue again.
 | On win (not final) | Stay; wait for the next pair (winner vs winner). |
 | Champion | Short win state, then the same start screen / button (no lobby to hang in). |
 | Identity | Anonymous `sessionId` + display name + emoji. No accounts. |
-| Fake players | Stretch only. Pad to 4, 8, or 16. Fake loss = delete bot; human loss = boot home. |
+| Fake players | **Pad up** as in the table above. Random throws on timeout. |
 
 ## Bracket picture (8 humans, example)
 
@@ -115,8 +130,8 @@ Add (illustrative, not a schema to implement yet):
 - `royals` (or keep `rooms` as the match instance): size 4/8/16, status.
 - `matches`: bracket round, player A/B (human or fake), scores, phase.
 - `throws`: hidden until round resolve.
-- Mutations: `enqueue`, `throw`, `internal` matchmaker + round timeout +
-  eliminate/boot. Stretch: insert fake players when padding.
+- Mutations: `enqueue`, `throw`, `internal` matchmaker (pad up to 4/8/16) +
+  round timeout + eliminate/boot. Fake players are matcher-owned, not clients.
 
 Rules live in Convex. Clients send `enqueue` and `rock | paper | scissors`.
 
@@ -126,15 +141,16 @@ Rules live in Convex. Clients send `enqueue` and `rock | paper | scissors`.
 2. Audience taps **Start matchmaking**; dashboard shows the queue growing.
 3. Convex starts a 4, 8, or 16 royal; phones jump into pair UI.
 4. 10s throws; losers return to the button; winners climb.
-5. Stretch if the room is thin: fake players fill the bracket.
+5. If the queue is 1–3 / 5–7 / 9–15 humans at commit, fake players pad **up**
+   to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. Confirm **queue window** (wait to try 8/16) vs **instant start at 4**?
+1. Confirm **queue window** (gather humans, then pad) vs **instant pad** (1
+   player immediately becomes a 4 with 3 fakes)?
 2. Confirm sudden-death on 3-round ties?
 3. Champion: brief win splash, then the same button?
-4. Fake players: pad to **4**, to **8**, or always toward **16**?
-5. Display name on first visit, or emoji-only until later?
+4. Display name on first visit, or emoji-only until later?
 
 ## Agent rules
 

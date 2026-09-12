@@ -5,9 +5,9 @@ The category to win is [Convex](https://www.convex.dev/).
 
 The product is **Rock, Paper, Scissors Royal**: live matchmade tournaments on
 Convex (brackets of 4 / 8 / 16). Players do **not** create or join rooms.
-Details and stretch (fake players) are in [BRAINSTORM.md](./BRAINSTORM.md).
-A rooms skeleton already lives in this repo (Convex + Vite + React). Do not
-replace it with a different backend.
+Fake players pad the queue **up** to the next bracket size. Details:
+[BRAINSTORM.md](./BRAINSTORM.md). A rooms skeleton already lives in this repo
+(Convex + Vite + React). Do not replace it with a different backend.
 
 ## Project state
 
@@ -31,18 +31,19 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **RPS Royal** — live tournament, not async. | Queue window vs instant start at 4. |
-| **Server-side matchmaking.** No player create/join rooms or join codes. | How fake players pad (4 vs 8 vs 16). |
-| Brackets of **4, 8, or 16** only. Odd starts **impossible**. | Sudden-death on 3-round ties. |
-| Pairs play **3 rapid rounds**; **10 seconds** to pick. Winner vs winner. | Champion splash vs instant home. |
-| **Losers boot** to a start screen with one button: **Start matchmaking**. No spectate. | Display name / emoji on first visit. |
-| **Fake players** = stretch, not v1. Convex backend. No AI, no accounts. | Art / final name. |
+| **RPS Royal** — live tournament, not async. | When the matcher **commits** (wait to gather humans vs pad immediately). |
+| **Server-side matchmaking.** No player create/join rooms or join codes. | Sudden-death on 3-round ties. |
+| Brackets of **4, 8, or 16** only. Odd starts **impossible**. | Champion splash vs instant home. |
+| Pairs play **3 rapid rounds**; **10 seconds** to pick. Winner vs winner. | Display name / emoji on first visit. |
+| **Losers boot** to a start screen with one button: **Start matchmaking**. No spectate. | Art / final name. |
+| **Fake players pad up** to the next size: 1–3→4, 5–7→8, 9–15→16. Exact 4/8/16 = no fakes. |  |
+| Convex backend. No AI, no accounts. |  |
 
 **Who it is for:** hackathon audience + judges on phones; a presenter with a projector QR.
 
 **What it does:** scan/open the app, tap **Start matchmaking**. Convex queues
-players and starts a 4/8/16 royal, pairs them, runs 10s RPS rounds, winners
-climb, losers land back on the same button.
+players, pads with fake players **up** to 4, 8, or 16, runs 10s RPS rounds,
+winners climb, losers land back on the same button.
 
 Details: [BRAINSTORM.md](./BRAINSTORM.md).
 
