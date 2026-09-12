@@ -1,6 +1,6 @@
 # Presenter QR (`qr.davydov-pr.com`)
 
-Projector-only page: a large QR that opens the **hackathon app** URL on phones.
+Projector-only page: a large QR that opens **KPM Royale** (`https://app.davydov-pr.com`) on phones.
 
 **Live:** https://qr.davydov-pr.com (Worker `davydov-qr`). Check target: `GET /target`.
 

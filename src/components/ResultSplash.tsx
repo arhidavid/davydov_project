@@ -7,8 +7,11 @@ export function ResultSplash({
 }) {
   const title = kind === "winner" ? "you are a winner" : "you lost";
   return (
-    <div className="screen center splash">
+    <div className={`screen center splash splash--${kind}`}>
       <p className="splash-kicker">KPM Royale</p>
+      <div className="splash-mark" aria-hidden="true">
+        {kind === "winner" ? "👑" : "✊"}
+      </div>
       <h1 className={`splash-title ${kind === "winner" ? "splash-title--win" : ""}`}>
         {title}
       </h1>

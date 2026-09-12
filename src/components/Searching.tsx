@@ -14,7 +14,8 @@ export function Searching({
       </div>
       <h1 className="searching-title">Searching…</h1>
       <p className="muted searching-copy">
-        {name}, looking for other players. You can cancel anytime.
+        {name}, looking for other players. A royal starts at 4, 8, or 16. You
+        can cancel anytime.
       </p>
       <button type="button" className="btn btn-ghost btn-lg" onClick={onCancel}>
         Cancel

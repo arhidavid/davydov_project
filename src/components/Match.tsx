@@ -151,12 +151,15 @@ export function Match({
 
       {view.phase === "picking" ? (
         <>
+          {view.opponentReconnecting ? (
+            <p className="reconnect-banner">Opponent reconnecting… match waits.</p>
+          ) : null}
           <div className="match-timer" aria-live="polite">
             {seconds}
           </div>
           <p className="muted match-hint">
             {view.opponentReconnecting
-              ? "Opponent reconnecting… match waits."
+              ? "Timer is paused until they return."
               : view.yourGesture
               ? "Locked in. Waiting for opponent…"
               : view.opponentHasThrown
@@ -193,7 +196,15 @@ export function Match({
               <span className="muted">Them</span>
             </div>
           </div>
-          <p className="reveal-copy">
+          <p
+            className={`reveal-copy ${
+              outcome === "win"
+                ? "reveal-copy--win"
+                : outcome === "lose"
+                  ? "reveal-copy--lose"
+                  : ""
+            }`}
+          >
             {outcome === "draw"
               ? "Draw"
               : outcome === "win"
