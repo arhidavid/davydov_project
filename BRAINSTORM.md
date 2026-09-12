@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (timeout = auto-lose the round).
+Last updated: 2026-09-12 (draws + 10-tie coin flip).
 
 ## Locked product
 
@@ -27,9 +27,11 @@ codes, no spectators.
    starts another **20 seconds** in case a 16 can form. Hitting **16** starts
    immediately. Odd counts never start.
 3. Each pair plays **3 rapid rounds**. **10 seconds** to pick each round. If
-   you do not pick in time, you **lose that round** (the opponent who threw
-   wins it). A round draw scores nothing. If the match is still tied after 3,
-   they play **extra rounds until someone wins a round**.
+   you do not pick in time and the opponent did, you **lose that round**. If
+   **both miss**, it is a **draw** — same as both throwing the same gesture
+   (no point). If the match is still tied after 3, they play **extra rounds
+   until someone wins a round**. If they **draw 10 times in a row**, Convex
+   picks a **random player in the pair as the match winner**.
 4. **Winner vs winner** until one champion.
 5. When a player is **eliminated**, they leave the royal (no spectate) and see
    a splash: **you lost**, button **Back to main menu**. The **champion** sees
@@ -98,8 +100,8 @@ royal → throws in the dashboard → losers get **you lost** → champion gets
 | Odd players | **Impossible** at royal start. Matcher never commits an odd roster. |
 | Late join | New taps go to the **queue**, not into a royal already playing. |
 | A match | **Exactly 3 rounds**. Classic RPS. Score = rounds won. |
-| Round draw | No point. If the pair is still tied after 3 rounds, **extra rounds until someone wins a round** (same 10s pick). |
-| Pick window | **10 seconds**. Both pick in secret. Window end or both picked → resolve. If one player misses: they **auto-lose the round**; the opponent’s throw wins it. Timer via Convex scheduler, not `Date.now()` in queries. |
+| Round draw | Same gesture **or both miss** the 10s window: no point. Extra rounds if still tied after 3. **10 draws in a row** (streak resets on any round that has a winner) → **random player in the pair wins the match**. |
+| Pick window | **10 seconds**. Both pick in secret. One miss: that player **loses the round**. Both miss: draw (see above). Timer via Convex scheduler, not `Date.now()` in queries. |
 | Reveal | Three big buttons (✊ ✋ ✌️), then both gestures + who won the round. |
 | On loss | Out of the royal (no spectate). Splash: **you lost**. Button: **Back to main menu**. |
 | On win (not final) | Stay; wait for the next pair (winner vs winner). |
@@ -157,8 +159,7 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. If **both** miss the 10s window: treat as a draw (no point, next round), or
-   something else?
+1. If a player **disconnects or leaves** mid-match: opponent wins the match?
 
 ## Agent rules
 
