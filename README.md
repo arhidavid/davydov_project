@@ -10,6 +10,9 @@ The project goal and **current project state** for Cursor agents are in [AGENTS.
 That file is loaded into every new agent session. The always-apply Cursor rule is
 `.cursor/rules/project-goal.mdc`.
 
+**Current state: Brainstorming** (hackathon day started 2026-09-12). Propose and refine
+product ideas; do not implement until the idea is locked and state moves to **Development**.
+
 ---
 
 ## Project context (read this first if you're an agent picking this up)
@@ -25,7 +28,16 @@ September 12th**. Key facts and decisions from the kickoff conversation:
 - **No AI features** are planned — do not add LLM/vector-search functionality unless asked.
 - **Distribution requirement:** the product must be **instantly usable on any phone via a public
   URL** (open a link / scan a QR code, no install). Mobile-first is a hard requirement.
-- **Accounts available:** Cloudflare, Fly.io, and Convex. Hosted project is `mike-dav/convex-party` (`artful-dog-585`, eu-west-1). Cloud Agents have a **dev** `CONVEX_DEPLOY_KEY` for `dev/mike-dav`. Mint a **production** deploy key before Cloudflare Pages production deploys.
+- **Accounts available:** Cloudflare, Fly.io, and Convex. Hosted project is `mike-dav/convex-party`
+  (eu-west-1). Cloud Agents already have **both** deploy keys (verified 2026-09-10):
+
+  | Env var | Deployment | URL |
+  | --- | --- | --- |
+  | `CONVEX_DEV_DEPLOY_KEY` | `dev:artful-dog-585` | `https://artful-dog-585.eu-west-1.convex.cloud` |
+  | `CONVEX_DEPLOY_KEY` | `prod:rosy-manatee-43` | `https://rosy-manatee-43.eu-west-1.convex.cloud` |
+
+  Dashboard: https://dashboard.convex.dev/t/mike-dav/convex-party/artful-dog-585.
+  Use the **prod** key for Cloudflare Pages production Convex pushes. Do not mint another key.
 
 ### How Convex judging shapes the design
 Convex hackathons consistently score on: *It's Convex* (uses Convex idioms + shows the Convex
@@ -38,7 +50,10 @@ boilerplate), so this skeleton leans into a live, multiplayer, phone-shareable e
 ### Chosen stack & why
 - **Backend: Convex** (the category requirement; reactive queries/mutations, no server to run).
 - **Frontend: React + Vite + TypeScript**, mobile-first SPA using the Convex React client.
-- **Hosting plan: Cloudflare Pages** at `app.davydov-pr.com` for the static frontend + **Convex Cloud** for the backend; **Worker** at `qr.davydov-pr.com` for the stage QR (`qr/` — retarget via `TARGET_URL`). Apex `davydov-pr.com` is the personal calling card and must not be overwritten. Fly.io is intentionally unused — Convex removes the need for a self-hosted server.
+- **Hosting plan: Cloudflare Pages** at `app.davydov-pr.com` for the static frontend + **Convex Cloud**
+  for the backend; **Worker** at `qr.davydov-pr.com` for the stage QR (`qr/` — retarget via
+  `TARGET_URL`). Apex `davydov-pr.com` is the personal calling card and must not be overwritten.
+  Fly.io is unused unless Cloudflare is not viable.
 
 ---
 
@@ -86,6 +101,10 @@ other, and watch presence/taps/reactions sync instantly.
 > First run downloads the local Convex backend binary. In non-interactive/agent shells, prefix
 > with `CONVEX_AGENT_MODE=anonymous` (the Cloud Agent environment already does this).
 
+Cloud Agents can also talk to hosted Convex without logging in: `CONVEX_DEV_DEPLOY_KEY` for
+`artful-dog-585`, `CONVEX_DEPLOY_KEY` for `rosy-manatee-43`. Prefer anonymous `convex dev` while
+coding so you do not collide with the shared hosted deployments.
+
 ### Useful commands
 | Command | Description |
 | --- | --- |
@@ -93,42 +112,56 @@ other, and watch presence/taps/reactions sync instantly.
 | `npm run build` | Type-check and build the frontend (`dist/`) |
 | `npm run typecheck` | Type-check without emitting |
 | `npm test` | Convex function tests (Vitest + `convex-test`) |
-| `npm run deploy` | `convex deploy --cmd 'vite build'` (production; needs a deploy key) |
+| `npm run qr:test` | Presenter QR Worker tests |
+| `npm run pages:deploy` | Vite build + Wrangler Pages deploy to `convex-party` |
+| `npm run qr:deploy` | Deploy Worker `davydov-qr` + `qr.davydov-pr.com` |
+| `npm run deploy` | `convex deploy --cmd 'vite build'` (production Convex; uses `CONVEX_DEPLOY_KEY`) |
 
 ---
 
 ## Public demo URLs (audience QR path)
 
-Preparation proved the public hosting path (Cloudflare account `Bunkmaster`):
+Public hosting is live (Cloudflare account `Bunkmaster`, account id
+`9e65f2f645a419770d1f6d770b4bee40`):
 
 | URL | Role |
 | --- | --- |
 | https://app.davydov-pr.com | Hackathon app (Pages project `convex-party`) |
 | https://convex-party.pages.dev | Same app (Pages alias) |
-| https://qr.davydov-pr.com | Stage projector QR (`TARGET_URL` → app) |
+| https://qr.davydov-pr.com | Stage projector QR (`TARGET_URL` → app; check `GET /target`) |
 | https://davydov-pr.com | Personal site — **do not overwrite** |
 
-Redeploy from a Cloud Agent (needs `CLOUDFLARE_API_TOKEN`; set `CLOUDFLARE_ACCOUNT_ID=9e65f2f645a419770d1f6d770b4bee40` if unset):
+The live Pages build currently bakes `VITE_CONVEX_URL` as the **dev** deployment
+(`https://artful-dog-585.eu-west-1.convex.cloud`). That is fine until you promote. To point the
+public app at prod Convex, rebuild Pages with
+`VITE_CONVEX_URL=https://rosy-manatee-43.eu-west-1.convex.cloud` (or run `npx convex deploy --cmd
+'vite build'` with `CONVEX_DEPLOY_KEY`).
+
+Redeploy from a Cloud Agent (needs `CLOUDFLARE_API_TOKEN`; set
+`CLOUDFLARE_ACCOUNT_ID=9e65f2f645a419770d1f6d770b4bee40` if unset):
 
 ```bash
 npm run pages:deploy   # vite build + wrangler pages deploy
 npm run qr:deploy      # Worker + qr.davydov-pr.com custom domain
 ```
 
+Details for the projector Worker: [qr/README.md](./qr/README.md).
+
 ## Deploying to production (Convex Cloud + Cloudflare Pages)
 
-The Convex Cloud project already exists (`mike-dav/convex-party`, deployment `artful-dog-585`).
-Cloud Agents currently hold a **dev** `CONVEX_DEPLOY_KEY` (targets `dev/mike-dav`). The live
-Pages build above was shipped with `VITE_CONVEX_URL` pointed at that **dev** deployment — fine for
-prep. For true production Convex pushes:
+Hosted Convex is already set up. Keys are minted and verified; do **not** mint another deploy key.
 
-1. **Mint a production deploy key** in the Convex dashboard (Project → Settings → Deploy keys).
-   Add it as `CONVEX_DEPLOY_KEY` in Cloudflare Pages secrets (and Cloud Agent secrets if agents deploy).
-2. Prefer Pages CI build command:
+1. **Push Convex functions to prod** with the existing production key:
+   ```bash
+   CONVEX_DEPLOY_KEY="$CONVEX_DEPLOY_KEY" npx convex deploy --cmd 'vite build'
+   ```
+   That command also sets `VITE_CONVEX_URL` for the frontend build from the prod deployment
+   (`rosy-manatee-43`). For a **dev** Convex push, use `CONVEX_DEV_DEPLOY_KEY` instead.
+2. **Ship the static app** with `npm run pages:deploy`, or prefer Pages CI:
    ```
    npx convex deploy --cmd 'vite build'
    ```
-   with output directory `dist`. `convex deploy` sets `VITE_CONVEX_URL` and pushes `convex/`.
+   with output directory `dist` and `CONVEX_DEPLOY_KEY` in Pages secrets (prod Convex).
 3. Enable Node.js compatibility if Cloudflare prompts about `node:async_hooks`.
 4. Keep custom domains: `app.davydov-pr.com` on Pages, `qr.davydov-pr.com` on the Worker. Leave apex alone.
 5. Retarget the stage QR if the app URL changes: `npx wrangler secret put TARGET_URL` in `qr/`.
