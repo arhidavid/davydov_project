@@ -1,0 +1,36 @@
+---
+alwaysApply: true
+---
+
+# Fetch latest `main` before trusting project state
+
+Cloud Agent VMs often boot from a **stale git snapshot**. The working tree,
+local `main`, and local `origin/main` can lag hours behind GitHub. Docs in
+the checkout (`AGENTS.md` **Current slice**, `IMPLEMENTATION.md`) may describe
+work that is **already merged**.
+
+`git status` saying *up to date with `origin/main`* is **not** freshness.
+That only means local `main` matches the last fetched `origin/main`, which
+may itself be stale.
+
+## Before any product/slice work
+
+Do this **in the current session**, before reading slice status as truth and
+before `git checkout -b` off `main`:
+
+1. `git fetch origin main`
+2. Read **Current slice** from `origin/main`, not from the snapshot tree:
+   `git show origin/main:AGENTS.md` and `git show origin/main:IMPLEMENTATION.md`
+   (or fast-forward / branch from `origin/main` first, then read the files).
+3. Confirm with merged PRs: `origin pr list --state merged --limit 20`
+   (slice PRs titled like `KPM Royale slice N: …`).
+
+If `origin/main` is ahead of the working tree, **do not** implement from the
+snapshot. Branch from fetched `origin/main`.
+
+## Do not
+
+- Treat workspace `AGENTS.md` / `IMPLEMENTATION.md` as current until fetch.
+- Re-implement a slice that already has a merged PR.
+- Skip fetch because the cloud prompt already pasted `AGENTS.md` (that paste
+  is from the snapshot too).
