@@ -54,7 +54,7 @@ Details: [BRAINSTORM.md](./BRAINSTORM.md). Build order:
 
 ## Implementation slices
 
-**Current slice: 5** (Bracket climb + splashes). Slices 3 and 4 are **done**.
+**Current slice: 6** (Match UI). Slice 5 is **done**.
 Agents implement **one** required slice per change, then mark it done here
 and in `IMPLEMENTATION.md`.
 
@@ -64,7 +64,7 @@ and in `IMPLEMENTATION.md`.
 | 2 | Convex `queue`: enqueue / cancel / heartbeat / `myStatus` | **done** |
 | 3 | Matchmaker: wait 20s at 4 and 8; 16 starts now; create `royals` + pairs | **done** |
 | 4 | Round engine: 10s secret throws, miss/draw/win, extras, 10-draw random | **done** |
-| 5 | Bracket climb + `you lost` / `you are a winner` **data** | pending |
+| 5 | Bracket climb + `you lost` / `you are a winner` **data** | **done** |
 | 6 | Phone UI for searching → match → splash → main menu | pending |
 | 7 | Disconnect: 20s grace; leaver loses; both gone → random advance | pending |
 | 8 | Polish, tests, retire tap-counter / room-code product path | pending |
@@ -116,8 +116,8 @@ See [README.md](./README.md) for run/deploy commands. Product spec:
 [BRAINSTORM.md](./BRAINSTORM.md). Build order:
 [IMPLEMENTATION.md](./IMPLEMENTATION.md). Short map:
 
-- `convex/schema.ts`, `convex/queue.ts`, `convex/matchmaking.ts`, `convex/matches.ts`, `convex/rpsLogic.ts`, `convex/rooms.ts`, `convex/presence.ts`, `convex/reactions.ts` — backend
-- `convex/queue.test.ts`, `convex/matchmaking.test.ts`, `convex/matches.test.ts`, `convex/rooms.test.ts` — Convex function tests (`npm test`)
+- `convex/schema.ts`, `convex/queue.ts`, `convex/matchmaking.ts`, `convex/matches.ts`, `convex/bracket.ts`, `convex/rpsLogic.ts`, `convex/rooms.ts`, `convex/presence.ts`, `convex/reactions.ts` — backend
+- `convex/queue.test.ts`, `convex/matchmaking.test.ts`, `convex/matches.test.ts`, `convex/bracket.test.ts`, `convex/rooms.test.ts` — Convex function tests (`npm test`)
 - `src/components/Home.tsx`, `src/components/Searching.tsx`, `src/components/Matched.tsx` — frontend
 - `qr/` — Cloudflare Worker for `qr.davydov-pr.com` (projector QR; env-retargetable)
 - `IMPLEMENTATION.md` — ordered build slices; keep **Current slice** in sync

@@ -8,6 +8,7 @@ import {
   type MutationCtx,
   type QueryCtx,
 } from "./_generated/server";
+import { applyMatchComplete } from "./bracket.js";
 import {
   PICK_WINDOW_MS,
   nextMatchState,
@@ -146,6 +147,12 @@ async function applyResolvedRound(
     phase: next.phase,
     winnerSessionId: next.winnerSessionId ?? undefined,
   });
+  if (next.phase === "done") {
+    const updated = await ctx.db.get(match._id);
+    if (updated) {
+      await applyMatchComplete(ctx, updated);
+    }
+  }
 }
 
 /** Slice 3 (and tests) call this after inserting a match in `picking`. */

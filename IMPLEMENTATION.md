@@ -4,9 +4,8 @@
 This file is the **build order**. Do not implement a later slice until the
 previous **required** slices are done (see [Dependencies](#dependencies)).
 
-**Current slice: 5** — Bracket climb + result splashes. Slices 3 and 4 are
-done. Update this line and the table in [AGENTS.md](./AGENTS.md) when a slice
-lands on `main`.
+**Current slice: 6** — Match UI. Slice 5 is done. Update this line and the
+table in [AGENTS.md](./AGENTS.md) when a slice lands on `main`.
 
 v1 = slices **1–8**. Slice **9** is deploy. Slice **10** is stretch (fake
 players) — **do not start** until 1–8 work on phones.
@@ -196,6 +195,8 @@ the window.
 ---
 
 ## Slice 5 — Bracket climb + result splashes (data)
+
+**Status:** done.
 
 **Demo after this:** when a match `done`, loser `royalPlayers.status =
 eliminated`, winner waits; when all matches in the round are `done`, create

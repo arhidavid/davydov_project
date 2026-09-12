@@ -10,6 +10,7 @@ import {
   findPlayingSeat,
   matchIdForSession,
   onNewEnqueue,
+  splashForSession,
 } from "./matchmaking.js";
 
 const queuedStatus = v.object({
@@ -27,10 +28,22 @@ const inRoyalStatus = v.object({
   matchId: v.id("matches"),
 });
 
+const lostStatus = v.object({
+  kind: v.literal("lost"),
+  royalId: v.id("royals"),
+});
+
+const winnerStatus = v.object({
+  kind: v.literal("winner"),
+  royalId: v.id("royals"),
+});
+
 const statusReturn = v.union(
   v.object({ kind: v.literal("idle") }),
   queuedStatus,
   inRoyalStatus,
+  lostStatus,
+  winnerStatus,
 );
 
 async function queueRowBySession(
@@ -153,9 +166,13 @@ export const myStatus = query({
       }
     }
     const existing = await queueRowBySession(ctx, sessionId);
-    if (!existing) {
-      return { kind: "idle" as const };
+    if (existing) {
+      return toQueuedStatus(existing);
     }
-    return toQueuedStatus(existing);
+    const splash = await splashForSession(ctx, sessionId);
+    if (splash) {
+      return splash;
+    }
+    return { kind: "idle" as const };
   },
 });

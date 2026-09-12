@@ -123,26 +123,47 @@ async function popRoyal(
     if (!playerA || !playerB) {
       throw new Error("Odd pairing is impossible");
     }
-    const matchId = await ctx.db.insert("matches", {
+    await createPickingMatch(ctx, {
       royalId,
       roundSize: size,
       slot,
       playerA: playerA.sessionId,
       playerB: playerB.sessionId,
-      scoreA: 0,
-      scoreB: 0,
-      phase: "picking",
-      roundIndex: 1,
-      drawStreak: 0,
-      pickDeadline: now + PICK_WINDOW_MS,
     });
-    await ctx.scheduler.runAfter(
-      PICK_WINDOW_MS,
-      internal.matches.closeRound,
-      { matchId, roundIndex: 1 },
-    );
   }
   return royalId;
+}
+
+export async function createPickingMatch(
+  ctx: MutationCtx,
+  args: {
+    royalId: Id<"royals">;
+    roundSize: 16 | 8 | 4 | 2;
+    slot: number;
+    playerA: string;
+    playerB: string;
+  },
+): Promise<Id<"matches">> {
+  const now = Date.now();
+  const matchId = await ctx.db.insert("matches", {
+    royalId: args.royalId,
+    roundSize: args.roundSize,
+    slot: args.slot,
+    playerA: args.playerA,
+    playerB: args.playerB,
+    scoreA: 0,
+    scoreB: 0,
+    phase: "picking",
+    roundIndex: 1,
+    drawStreak: 0,
+    pickDeadline: now + PICK_WINDOW_MS,
+  });
+  await ctx.scheduler.runAfter(
+    PICK_WINDOW_MS,
+    internal.matches.closeRound,
+    { matchId, roundIndex: 1 },
+  );
+  return matchId;
 }
 
 async function popWhileSixteen(ctx: MutationCtx): Promise<void> {
@@ -200,11 +221,47 @@ export async function matchIdForSession(
   const matches = await ctx.db
     .query("matches")
     .withIndex("by_royal", (q) => q.eq("royalId", royalId))
-    .take(16);
-  const match = matches.find(
+    .collect();
+  const mine = matches.filter(
     (row) => row.playerA === sessionId || row.playerB === sessionId,
   );
-  return match?._id ?? null;
+  if (mine.length === 0) {
+    return null;
+  }
+  const live = mine.filter((row) => row.phase !== "done");
+  const pool = live.length > 0 ? live : mine;
+  pool.sort((a, b) => a.roundSize - b.roundSize);
+  return pool[0]!._id;
+}
+
+export type SplashKind = "lost" | "winner";
+
+export async function splashForSession(
+  ctx: QueryCtx | MutationCtx,
+  sessionId: string,
+): Promise<{ kind: SplashKind; royalId: Id<"royals"> } | null> {
+  const seats = await ctx.db
+    .query("royalPlayers")
+    .withIndex("by_session", (q) => q.eq("sessionId", sessionId))
+    .collect();
+  let best: { kind: SplashKind; royalId: Id<"royals">; startedAt: number } | null =
+    null;
+  for (const seat of seats) {
+    if (seat.status !== "eliminated" && seat.status !== "champion") {
+      continue;
+    }
+    const royal = await ctx.db.get(seat.royalId);
+    if (!royal) continue;
+    if (best && royal.startedAt < best.startedAt) continue;
+    best = {
+      kind: seat.status === "champion" ? "winner" : "lost",
+      royalId: seat.royalId,
+      startedAt: royal.startedAt,
+    };
+  }
+  return best
+    ? { kind: best.kind, royalId: best.royalId }
+    : null;
 }
 
 export const tryStart = internalMutation({
