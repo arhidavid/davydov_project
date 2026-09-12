@@ -12,8 +12,9 @@ That file is loaded into every new agent session. The always-apply Cursor rule i
 
 **Current state: Development** (owner moved 2026-09-12). Product: **KPM Royale**
 (*Kamen! Papir! Makaze!* ✊ ✋ ✌️) — Convex **matchmaking** into live 4/8/16
-brackets of **real players**. Spec: [BRAINSTORM.md](./BRAINSTORM.md). Build and
-deploy; fake players only if time.
+brackets of **real players**. Spec: [BRAINSTORM.md](./BRAINSTORM.md). Build
+order: [IMPLEMENTATION.md](./IMPLEMENTATION.md) (**current slice: 1**). Fake
+players only if time after slices 1–8.
 
 ---
 
@@ -189,5 +190,7 @@ Hosted Convex is already set up. Keys are minted and verified; do **not** mint a
 │   ├── environment.json    # Cloud Agent env (Convex local + Vite terminals)
 │   └── rules/project-goal.mdc  # Always-apply: follow AGENTS.md
 ├── AGENTS.md               # Hackathon goal + current project state for agents
+├── BRAINSTORM.md           # Locked KPM Royale spec
+├── IMPLEMENTATION.md       # Build slices (current slice lives here)
 └── package.json
 ```

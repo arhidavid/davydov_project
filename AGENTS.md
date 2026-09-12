@@ -49,7 +49,26 @@ queues real players and starts a 4/8/16 royal, runs 10s RPS rounds, winners
 climb. Eliminated players see **you lost**; the champion sees **you are a
 winner**. Both get **Back to main menu**.
 
-Details: [BRAINSTORM.md](./BRAINSTORM.md).
+Details: [BRAINSTORM.md](./BRAINSTORM.md). Build order:
+[IMPLEMENTATION.md](./IMPLEMENTATION.md).
+
+## Implementation slices
+
+**Current slice: 1** (Home + identity). Agents implement **one** required
+slice per change, then mark it done here and in `IMPLEMENTATION.md`.
+
+| Slice | What | Status |
+| --- | --- | --- |
+| 1 | Home: KPM Royale branding, editable identity, **Start matchmaking**; drop create/join rooms | **next** |
+| 2 | Convex `queue`: enqueue / cancel / heartbeat / `myStatus` | pending |
+| 3 | Matchmaker: wait 20s at 4 and 8; 16 starts now; create `royals` + pairs | pending |
+| 4 | Round engine: 10s secret throws, miss/draw/win, extras, 10-draw random | pending |
+| 5 | Bracket climb + `you lost` / `you are a winner` **data** | pending |
+| 6 | Phone UI for searching → match → splash → main menu | pending |
+| 7 | Disconnect: 20s grace; leaver loses; both gone → random advance | pending |
+| 8 | Polish, tests, retire tap-counter / room-code product path | pending |
+| 9 | Deploy Pages + hosted Convex; QR still hits the app | pending |
+| 10 | Fake players pad-up | **stretch** — not until 1–8 work |
 
 ## Leaving preparation
 
@@ -82,8 +101,8 @@ Every task in this repo is work toward that hackathon demo. Before changing arch
 ## How to work
 
 - Keep this goal **and the current project state** in mind for the whole task.
-- Stay in the current state. **Development:** implement **KPM Royale** per [BRAINSTORM.md](./BRAINSTORM.md). Do not add fake players until the real-player royal works and there is leftover time.
-- Prefer small, shippable slices over large rewrites.
+- Stay in the current state. **Development:** implement **KPM Royale** per [BRAINSTORM.md](./BRAINSTORM.md) using the slices in [IMPLEMENTATION.md](./IMPLEMENTATION.md). Do not skip ahead. Do not add fake players until slices 1–8 work and there is leftover time.
+- Prefer small, shippable slices over large rewrites. Take the **Current slice** only.
 - Wire features through Convex (queries, mutations, live data). Local `convex dev` is for development; the destination is a product running on Convex.
 - If a hosted Convex, Fly.io, or Cloudflare deployment needs credentials, ask the owner — do not drop Convex or substitute another backend.
 - Treat the owner's request as a slice of this product, not as a greenfield repo with no purpose.
@@ -92,12 +111,14 @@ Every task in this repo is work toward that hackathon demo. Before changing arch
 
 ## Layout (for agents)
 
-See [README.md](./README.md) for run/deploy commands. Product notebook:
-[BRAINSTORM.md](./BRAINSTORM.md). Short map:
+See [README.md](./README.md) for run/deploy commands. Product spec:
+[BRAINSTORM.md](./BRAINSTORM.md). Build order:
+[IMPLEMENTATION.md](./IMPLEMENTATION.md). Short map:
 
 - `convex/schema.ts`, `convex/rooms.ts`, `convex/presence.ts`, `convex/reactions.ts` — backend
 - `convex/rooms.test.ts` — Convex function tests (`npm test`)
 - `src/components/Home.tsx`, `src/components/Room.tsx` — frontend
 - `qr/` — Cloudflare Worker for `qr.davydov-pr.com` (projector QR; env-retargetable)
+- `IMPLEMENTATION.md` — ordered build slices; keep **Current slice** in sync
 - `.cursor/environment.json` — Cloud Agent install + Convex/Vite terminals
 - `.cursor/rules/project-goal.mdc` — always-apply reminder of this file

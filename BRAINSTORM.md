@@ -3,7 +3,10 @@
 **Project state: Development.** This file is the locked product spec. Build
 **real-player** matchmaking + royals on Convex. Fake players only if time.
 
-Last updated: 2026-09-12 (moved to Development).
+Last updated: 2026-09-12 (implementation slices written).
+
+Build order (do not skip): [IMPLEMENTATION.md](./IMPLEMENTATION.md).
+**Current slice: 1** — Home + identity.
 
 ## Locked product
 
@@ -168,5 +171,6 @@ None blocking. Spec is locked.
 ## Agent rules
 
 - State is **Development**. Implement **real-player** queue + royals on Convex
-  per this file. **Do not** add fake players unless leftover time after v1 works.
+  per this file, **one slice at a time** from [IMPLEMENTATION.md](./IMPLEMENTATION.md).
+  **Do not** add fake players unless leftover time after v1 (slices 1–8) works.
 - Do not add a second backend. Keep the public QR → `app.davydov-pr.com` path.
