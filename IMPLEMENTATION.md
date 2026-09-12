@@ -4,7 +4,7 @@
 This file is the **build order**. Do not implement a later slice until the
 previous **required** slices are done (see [Dependencies](#dependencies)).
 
-**Current slice: 6** — Match UI. Slice 5 is done. Update this line and the
+**Current slice: 7** — Disconnect. Slice 6 is done. Update this line and the
 table in [AGENTS.md](./AGENTS.md) when a slice lands on `main`.
 
 v1 = slices **1–8**. Slice **9** is deploy. Slice **10** is stretch (fake
@@ -217,6 +217,8 @@ list API.
 ---
 
 ## Slice 6 — Match UI (phone)
+
+**Status:** done.
 
 **Demo after this:** full on-device loop for a 4-royal (use four browsers /
 incognito): searching → vs screen → 10s buttons → reveal → next pair or

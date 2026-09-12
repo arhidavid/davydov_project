@@ -1,4 +1,6 @@
 export const PICK_WINDOW_MS = 10_000;
+/** How long phones show both gestures before the next pick window. */
+export const REVEAL_PAUSE_MS = 2_500;
 
 export type Gesture = "rock" | "paper" | "scissors";
 export type RoundResult = "a" | "b" | "draw";

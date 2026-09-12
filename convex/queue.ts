@@ -146,6 +146,28 @@ export const heartbeat = mutation({
   },
 });
 
+export const dismissSplash = mutation({
+  args: { sessionId: v.string() },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const sessionId = requireSessionId(args.sessionId);
+    const splash = await splashForSession(ctx, sessionId);
+    if (!splash) {
+      return null;
+    }
+    const seats = await ctx.db
+      .query("royalPlayers")
+      .withIndex("by_session", (q) => q.eq("sessionId", sessionId))
+      .collect();
+    for (const seat of seats) {
+      if (seat.royalId !== splash.royalId) continue;
+      if (seat.status !== "eliminated" && seat.status !== "champion") continue;
+      await ctx.db.patch(seat._id, { splashDismissed: true });
+    }
+    return null;
+  },
+});
+
 export const myStatus = query({
   args: { sessionId: v.string() },
   returns: statusReturn,
