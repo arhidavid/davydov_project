@@ -32,11 +32,11 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **KPM Royale** — *Kamen! Papir! Makaze!* ✊ ✋ ✌️. Live tournament, not async. | Missed pick: random throw vs something else. |
+| **KPM Royale** — *Kamen! Papir! Makaze!* ✊ ✋ ✌️. Live tournament, not async. | If **both** miss the 10s window. |
 | **Server-side matchmaking.** No player create/join rooms or join codes. |  |
 | Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. |  |
 | After **4** (and **8**) queued, wait **20 seconds**; then largest exact 4/8/16. **16 starts immediately.** |  |
-| Pairs play **3 rapid rounds** (10s each). If still tied, **extra rounds until someone wins**. Winner vs winner. |  |
+| Pairs play **3 rapid rounds** (10s each). Miss a pick → **lose that round** (opponent who threw wins it). Extra rounds if still tied after 3. |  |
 | End-of-run splash: champion **you are a winner**, loser **you lost**; both have **Back to main menu**. No spectate. |  |
 | Identity: random name + random emoji (existing session helper), **editable** on the main menu. No accounts. |  |
 | **v1 = real players only.** Fake players only if time. Convex. |  |

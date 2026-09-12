@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (name: KPM Royale).
+Last updated: 2026-09-12 (timeout = auto-lose the round).
 
 ## Locked product
 
@@ -26,9 +26,10 @@ codes, no spectators.
    **largest exact** bracket (4, 8, or 16). Hitting **8** during that wait
    starts another **20 seconds** in case a 16 can form. Hitting **16** starts
    immediately. Odd counts never start.
-3. Each pair plays **3 rapid rounds**. **10 seconds** to pick each round. A
-   round draw scores nothing. If the match is still tied after 3, they play
-   **extra rounds until someone wins a round**.
+3. Each pair plays **3 rapid rounds**. **10 seconds** to pick each round. If
+   you do not pick in time, you **lose that round** (the opponent who threw
+   wins it). A round draw scores nothing. If the match is still tied after 3,
+   they play **extra rounds until someone wins a round**.
 4. **Winner vs winner** until one champion.
 5. When a player is **eliminated**, they leave the royal (no spectate) and see
    a splash: **you lost**, button **Back to main menu**. The **champion** sees
@@ -88,6 +89,7 @@ royal → throws in the dashboard → losers get **you lost** → champion gets
 
 | Topic | Default |
 | --- | --- |
+| Branding | Home title **KPM Royale**. Tagline **Kamen! Papir! Makaze! ✊ ✋ ✌️**. |
 | Entry | **Server matchmaking only.** Main menu = identity (random, editable) + **Start matchmaking**. QR opens that screen. |
 | Bracket sizes | **4, 8, or 16** only. Never 2, 3, 5, … |
 | When to start (v1) | After **4** queued: wait **20 seconds**, then largest exact 4/8/16. After **8** queued: wait **20 seconds** more for a 16. **16 starts immediately.** Leftovers stay queued. |
@@ -97,7 +99,7 @@ royal → throws in the dashboard → losers get **you lost** → champion gets
 | Late join | New taps go to the **queue**, not into a royal already playing. |
 | A match | **Exactly 3 rounds**. Classic RPS. Score = rounds won. |
 | Round draw | No point. If the pair is still tied after 3 rounds, **extra rounds until someone wins a round** (same 10s pick). |
-| Pick window | **10 seconds**. Both pick in secret. Window end or both picked → reveal. Missed pick = **random** throw. Timer via Convex scheduler, not `Date.now()` in queries. |
+| Pick window | **10 seconds**. Both pick in secret. Window end or both picked → resolve. If one player misses: they **auto-lose the round**; the opponent’s throw wins it. Timer via Convex scheduler, not `Date.now()` in queries. |
 | Reveal | Three big buttons (✊ ✋ ✌️), then both gestures + who won the round. |
 | On loss | Out of the royal (no spectate). Splash: **you lost**. Button: **Back to main menu**. |
 | On win (not final) | Stay; wait for the next pair (winner vs winner). |
@@ -155,7 +157,8 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. If someone does not pick in 10s: **random throw** (current default), auto-loss, or wait?
+1. If **both** miss the 10s window: treat as a draw (no point, next round), or
+   something else?
 
 ## Agent rules
 
