@@ -3,12 +3,14 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (both-gone = random advance).
+Last updated: 2026-09-12 (UI mix: SR title, EN chrome).
 
 ## Locked product
 
 **Name:** **KPM Royale**
 **Tagline:** Kamen! Papir! Makaze! ✊ ✋ ✌️
+
+Chrome (buttons, splashes) stays **English**.
 
 **Who it is for:** hackathon audience on phones + a presenter with a projector QR.
 
@@ -92,7 +94,7 @@ royal → throws in the dashboard → losers get **you lost** → champion gets
 
 | Topic | Default |
 | --- | --- |
-| Branding | Home title **KPM Royale**. Tagline **Kamen! Papir! Makaze! ✊ ✋ ✌️**. |
+| Branding | Home title **KPM Royale**. Tagline **Kamen! Papir! Makaze! ✊ ✋ ✌️**. Buttons and splashes in **English** (Start matchmaking, Cancel, you lost, you are a winner, Back to main menu). |
 | Entry | **Server matchmaking only.** Main menu = identity (random, editable) + **Start matchmaking**. QR opens that screen. Searching: **Cancel** returns to main menu and drops the player from the queue. |
 | Bracket sizes | **4, 8, or 16** only. Never 2, 3, 5, … |
 | When to start (v1) | After **4** queued: wait **20 seconds**, then largest exact 4/8/16. After **8** queued: wait **20 seconds** more for a 16. **16 starts immediately.** Leftovers stay queued. |
@@ -161,7 +163,7 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. UI language: English for buttons/splashes (current copy), Serbian throughout, or mix (Serbian title, English chrome)?
+None blocking. Owner can move `AGENTS.md` to **Development** when ready to build.
 
 ## Agent rules
 
