@@ -101,6 +101,7 @@ Every task in this repo is work toward that hackathon demo. Before changing arch
 
 ## How to work
 
+- Cloud Agent VMs can boot on a **stale snapshot**. Before trusting **Current slice** or branching from `main`: `git fetch origin main`, read slice status from `origin/main` (not the snapshot tree), and check `origin pr list --state merged`. Details: `.cursor/rules/fetch-latest-main.mdc`.
 - Keep this goal **and the current project state** in mind for the whole task.
 - Stay in the current state. **Development:** implement **KPM Royale** per [BRAINSTORM.md](./BRAINSTORM.md) using the slices in [IMPLEMENTATION.md](./IMPLEMENTATION.md). Do not skip ahead. Do not add fake players until slices 1–8 work and there is leftover time.
 - Prefer small, shippable slices over large rewrites. Take the **Current slice** only.
@@ -123,3 +124,4 @@ See [README.md](./README.md) for run/deploy commands. Product spec:
 - `IMPLEMENTATION.md` — ordered build slices; keep **Current slice** in sync
 - `.cursor/environment.json` — Cloud Agent install + Convex/Vite terminals
 - `.cursor/rules/project-goal.mdc` — always-apply reminder of this file
+- `.cursor/rules/fetch-latest-main.mdc` — always-apply: fetch `origin/main` before trusting Current slice

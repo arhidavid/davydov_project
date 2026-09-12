@@ -12,16 +12,20 @@ players) — **do not start** until 1–8 work on phones.
 
 ## How to take a slice
 
-1. Read [BRAINSTORM.md](./BRAINSTORM.md) (rules) + this file (scope).
-2. Implement **only** this slice’s files and acceptance checks.
-3. Rules live in **Convex** (mutations + `internalMutation` + scheduler). The
+1. **Fetch first.** Cloud Agent checkouts lag. `git fetch origin main`, then
+   read **Current slice** from `origin/main` (and merged PRs). Do not implement
+   from a snapshot that still says an older slice. Rule:
+   `.cursor/rules/fetch-latest-main.mdc`.
+2. Read [BRAINSTORM.md](./BRAINSTORM.md) (rules) + this file (scope).
+3. Implement **only** this slice’s files and acceptance checks.
+4. Rules live in **Convex** (mutations + `internalMutation` + scheduler). The
    client sends `enqueue` / `cancel` / `throw` / heartbeats and **subscribes**.
-4. No Convex Auth — keep anonymous `sessionId` from `src/lib/session.ts`.
-5. No `Date.now()` inside **queries**. Pass time in or use scheduled jobs that
+5. No Convex Auth — keep anonymous `sessionId` from `src/lib/session.ts`.
+6. No `Date.now()` inside **queries**. Pass time in or use scheduled jobs that
    write phase fields (`picking` → `revealed`, `searching` → `inRoyal`).
-6. Add `convex-test` coverage for every new public/internal function.
-7. Mobile-first. QR still opens the **app home**, not `?r=CODE`.
-8. When the slice is merged, mark it `[x]` here and bump **Current slice**.
+7. Add `convex-test` coverage for every new public/internal function.
+8. Mobile-first. QR still opens the **app home**, not `?r=CODE`.
+9. When the slice is merged, mark it `[x]` here and bump **Current slice**.
 
 ## Dependencies
 
