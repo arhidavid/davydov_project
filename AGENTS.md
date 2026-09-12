@@ -3,12 +3,16 @@
 This is a **Cursor Belgrade Hackathon** project (Grok Bot Serbia Hackathon, 12 September 2026).
 The category to win is [Convex](https://www.convex.dev/).
 
-The product idea/theme is **not locked**. A pivot-ready real-time rooms skeleton already lives
-in this repo (Convex + Vite + React). Do not replace it with a different backend.
+The product is **KPM Royale** (*Kamen! Papir! Makaze!* ✊ ✋ ✌️): live
+matchmade rock-paper-scissors tournaments on Convex (brackets of **4 / 8 / 16**
+real players). Players do **not** create or join rooms. Fake players are **out
+of scope** unless time remains. Details: [BRAINSTORM.md](./BRAINSTORM.md).
+A rooms skeleton already lives in this repo (Convex + Vite + React). Do not
+replace it with a different backend.
 
 ## Project state
 
-**Current state: Brainstorming**
+**Current state: Development**
 
 The owner changes state. When it changes, update **Current state** in this file immediately so later agents inherit it.
 
@@ -16,11 +20,36 @@ The owner changes state. When it changes, update **Current state** in this file 
 | --- | --- | --- |
 | **Preparing for hackathon** | (done) | Close the [preparation exit criteria](#leaving-preparation). Do not invent the product or start building the app. |
 | **Awaiting hackathon day** | (done) Owner confirmed 2026-09-10; all preparation criteria met | Hold. No product work until hackathon day. When the owner says we are starting and gives the theme, move to **Brainstorming**. |
-| **Brainstorming** | (now) Owner started hackathon day 2026-09-12 | Propose and refine app ideas. Do not implement until the idea is locked. |
-| **Development** | Idea is locked in | Build and deploy. The product **must include and use the Convex service**. Public demo URL + presenter QR code. |
+| **Brainstorming** | (done) Owner started hackathon day 2026-09-12; idea locked 2026-09-12 | Propose and refine **game** ideas. Do not implement until the idea is locked. |
+| **Development** | (now) Owner moved to Development 2026-09-12 | Build and deploy **KPM Royale**. The product **must include and use the Convex service**. Public demo URL + presenter QR code. |
 | **Project finished** | Development and deploy are complete | Stop building unless the owner asks for a change. |
 
 When the idea is locked, write it into this file (who it is for, what it does) so later agents inherit it.
+
+## Product (locked)
+
+**KPM Royale** — who/what below. Spec: [BRAINSTORM.md](./BRAINSTORM.md). **Build this.** Fake players only if time after the real-player loop works.
+
+| Locked | Stretch / later |
+| --- | --- |
+| **KPM Royale** — *Kamen! Papir! Makaze!* ✊ ✋ ✌️. Live tournament, not async. Serbian title/tagline, **English** buttons and splashes. | Fake players pad-up (1–3→4, 5–7→8, 9–15→16). |
+| **Server-side matchmaking.** No player create/join rooms or join codes. |  |
+| Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. |  |
+| After **4** (and **8**) queued, wait **20 seconds**; then largest exact 4/8/16. **16 starts immediately.** |  |
+| Pairs: 3 rounds (10s). One miss → lose the round. Both miss or same gesture → draw. Extra rounds if tied after 3. **10 draws in a row → random match winner.** |  |
+| End-of-run splash: champion **you are a winner**, loser **you lost**; both have **Back to main menu**. No spectate. |  |
+| Identity: random name + random emoji (existing session helper), **editable** on the main menu. No accounts. |  |
+| Searching: **can cancel** back to main menu. Disconnect: **20s** grace, then **leaver loses**. If **both** gone: **random advance**. |  |
+| **v1 = real players only.** Convex backend. |  |
+
+**Who it is for:** hackathon audience + judges on phones; a presenter with a projector QR.
+
+**What it does:** scan/open **KPM Royale**, tap **Start matchmaking**. Convex
+queues real players and starts a 4/8/16 royal, runs 10s RPS rounds, winners
+climb. Eliminated players see **you lost**; the champion sees **you are a
+winner**. Both get **Back to main menu**.
+
+Details: [BRAINSTORM.md](./BRAINSTORM.md).
 
 ## Leaving preparation
 
@@ -53,17 +82,18 @@ Every task in this repo is work toward that hackathon demo. Before changing arch
 ## How to work
 
 - Keep this goal **and the current project state** in mind for the whole task.
-- Stay in the current state. Do not skip ahead (for example: do not implement until the idea is locked).
-- While **Brainstorming**, propose and refine app ideas. Do not implement until the owner locks the idea and moves the project to **Development**.
+- Stay in the current state. **Development:** implement **KPM Royale** per [BRAINSTORM.md](./BRAINSTORM.md). Do not add fake players until the real-player royal works and there is leftover time.
 - Prefer small, shippable slices over large rewrites.
 - Wire features through Convex (queries, mutations, live data). Local `convex dev` is for development; the destination is a product running on Convex.
 - If a hosted Convex, Fly.io, or Cloudflare deployment needs credentials, ask the owner — do not drop Convex or substitute another backend.
 - Treat the owner's request as a slice of this product, not as a greenfield repo with no purpose.
-- Pivot by swapping the tap-counter / reactions mechanic. Keep `rooms` + `presence` — they are the parts every multiplayer idea needs.
+- Pivot by swapping the tap-counter / create-join-room UX for **matchmaking +
+  RPS royals**. Keep Convex; reuse presence **inside** a royal if needed.
 
 ## Layout (for agents)
 
-See [README.md](./README.md) for run/deploy commands. Short map:
+See [README.md](./README.md) for run/deploy commands. Product notebook:
+[BRAINSTORM.md](./BRAINSTORM.md). Short map:
 
 - `convex/schema.ts`, `convex/rooms.ts`, `convex/presence.ts`, `convex/reactions.ts` — backend
 - `convex/rooms.test.ts` — Convex function tests (`npm test`)
