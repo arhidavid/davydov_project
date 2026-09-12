@@ -8,10 +8,12 @@
  * @module
  */
 
+import type * as matches from "../matches.js";
 import type * as presence from "../presence.js";
 import type * as queue from "../queue.js";
 import type * as reactions from "../reactions.js";
 import type * as rooms from "../rooms.js";
+import type * as rpsLogic from "../rpsLogic.js";
 
 import type {
   ApiFromModules,
@@ -20,10 +22,12 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  matches: typeof matches;
   presence: typeof presence;
   queue: typeof queue;
   reactions: typeof reactions;
   rooms: typeof rooms;
+  rpsLogic: typeof rpsLogic;
 }>;
 
 /**

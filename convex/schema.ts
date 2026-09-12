@@ -48,4 +48,66 @@ export default defineSchema({
   })
     .index("by_sessionId", ["sessionId"])
     .index("by_joinedAt", ["joinedAt"]),
+
+  royals: defineTable({
+    size: v.union(v.literal(4), v.literal(8), v.literal(16)),
+    status: v.union(v.literal("playing"), v.literal("complete")),
+    startedAt: v.number(),
+    championSessionId: v.optional(v.string()),
+  }),
+
+  royalPlayers: defineTable({
+    royalId: v.id("royals"),
+    sessionId: v.string(),
+    name: v.string(),
+    emoji: v.string(),
+    status: v.union(
+      v.literal("alive"),
+      v.literal("eliminated"),
+      v.literal("champion"),
+    ),
+    lastSeen: v.number(),
+    disconnectGraceEndsAt: v.optional(v.number()),
+  })
+    .index("by_royal", ["royalId"])
+    .index("by_session", ["sessionId"]),
+
+  matches: defineTable({
+    royalId: v.id("royals"),
+    roundSize: v.union(
+      v.literal(16),
+      v.literal(8),
+      v.literal(4),
+      v.literal(2),
+    ),
+    slot: v.number(),
+    playerA: v.string(),
+    playerB: v.string(),
+    scoreA: v.number(),
+    scoreB: v.number(),
+    phase: v.union(
+      v.literal("picking"),
+      v.literal("revealed"),
+      v.literal("done"),
+    ),
+    roundIndex: v.number(),
+    drawStreak: v.number(),
+    winnerSessionId: v.optional(v.string()),
+    pickDeadline: v.number(),
+  })
+    .index("by_royal", ["royalId"])
+    .index("by_royal_and_phase", ["royalId", "phase"]),
+
+  throws: defineTable({
+    matchId: v.id("matches"),
+    roundIndex: v.number(),
+    sessionId: v.string(),
+    gesture: v.union(
+      v.literal("rock"),
+      v.literal("paper"),
+      v.literal("scissors"),
+    ),
+  })
+    .index("by_match_round", ["matchId", "roundIndex"])
+    .index("by_match_round_session", ["matchId", "roundIndex", "sessionId"]),
 });

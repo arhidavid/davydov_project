@@ -54,15 +54,16 @@ Details: [BRAINSTORM.md](./BRAINSTORM.md). Build order:
 
 ## Implementation slices
 
-**Current slice: 3** (Matchmaker). Agents implement **one** required
-slice per change, then mark it done here and in `IMPLEMENTATION.md`.
+**Current slice: 3** (Matchmaker). Slice 4 (round engine) is **done**.
+Agents implement **one** required slice per change, then mark it done here
+and in `IMPLEMENTATION.md`.
 
 | Slice | What | Status |
 | --- | --- | --- |
 | 1 | Home: KPM Royale branding, editable identity, **Start matchmaking**; drop create/join rooms | **done** |
 | 2 | Convex `queue`: enqueue / cancel / heartbeat / `myStatus` | **done** |
 | 3 | Matchmaker: wait 20s at 4 and 8; 16 starts now; create `royals` + pairs | **next** |
-| 4 | Round engine: 10s secret throws, miss/draw/win, extras, 10-draw random | pending |
+| 4 | Round engine: 10s secret throws, miss/draw/win, extras, 10-draw random | **done** |
 | 5 | Bracket climb + `you lost` / `you are a winner` **data** | pending |
 | 6 | Phone UI for searching → match → splash → main menu | pending |
 | 7 | Disconnect: 20s grace; leaver loses; both gone → random advance | pending |
