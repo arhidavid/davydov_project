@@ -3,9 +3,10 @@
 This is a **Cursor Belgrade Hackathon** project (Grok Bot Serbia Hackathon, 12 September 2026).
 The category to win is [Convex](https://www.convex.dev/).
 
-The product is a **game** on Convex. Theme and exact rules are **not locked**.
-A pivot-ready rooms skeleton already lives in this repo (Convex + Vite + React).
-Do not replace it with a different backend. See [BRAINSTORM.md](./BRAINSTORM.md).
+The product is **Rock, Paper, Scissors Royal**: a live (not async) multiplayer
+tournament in Convex rooms. Exact start sizes and timers still have proposed
+defaults in [BRAINSTORM.md](./BRAINSTORM.md). A rooms skeleton already lives in
+this repo (Convex + Vite + React). Do not replace it with a different backend.
 
 ## Project state
 
@@ -23,22 +24,26 @@ The owner changes state. When it changes, update **Current state** in this file 
 
 When the idea is locked, write it into this file (who it is for, what it does) so later agents inherit it.
 
-## Product direction (Brainstorming — not locked)
+## Product direction (Brainstorming — idea chosen, not building yet)
 
-Owner direction on 2026-09-12. **Do not implement** until the owner picks a mechanic and moves state to **Development**.
+Owner plan on 2026-09-12. **Do not implement** until state moves to **Development**.
+Async / correspondence play is **out**.
 
-| Locked | Still open |
+| Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| It is a **game**, not a poll/chat/utility. | Exact rules, theme, name, art. |
-| **Asynchronous multiplayer** — players need not be online at the same time. Turns / match state live in Convex. If both happen to be in the room, updates should still feel live (reactive queries). | Player count (1v1 vs party), win condition, session length. |
-| **Create or join game rooms** (reuse 4-char codes, links, QR). Keep `rooms` + `presence`. | Whether a room is one match, a lobby of matches, or a persistent table. |
-| Backend is **Convex** (DB + functions + realtime). Mobile web, anonymous session, no AI. | Auth beyond `localStorage` session. |
+| **Rock, Paper, Scissors Royal** — live party tournament. | Exact lobby size (propose 4–8). |
+| **Create or join rooms**; then the room **closes** to new arrivals. | Who taps Start vs auto-start at cap. |
+| Players **split into pairs**; each pair plays **3 rapid RPS rounds**. | Draws, timeouts, odd-player bye. |
+| **Winner vs winner** until one champion (bracket). | Rematch in the same room. |
+| Backend **Convex**. Keep `rooms` + `presence`. Mobile, no AI, no accounts. | Art / final name. |
 
-**Who it is for:** hackathon audience + judges on phones; a presenter on a projector with QR.
+**Who it is for:** hackathon audience + judges on phones; a presenter with a projector QR.
 
-**What it does (once a mechanic is chosen):** someone creates a room, others join by code/QR, Convex stores the match, each player acts on their turn whenever they open the link, everyone watching sees the board update.
+**What it does:** people join a room from a link/QR. When the royal starts, the
+door closes, Convex pairs everyone, each pair throws rock/paper/scissors for three
+fast rounds, winners climb the bracket until a champion.
 
-Full options, Convex mapping, and demo story: [BRAINSTORM.md](./BRAINSTORM.md).
+Details, proposed defaults, Convex mapping: [BRAINSTORM.md](./BRAINSTORM.md).
 
 ## Leaving preparation
 

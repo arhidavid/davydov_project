@@ -10,10 +10,11 @@ The project goal and **current project state** for Cursor agents are in [AGENTS.
 That file is loaded into every new agent session. The always-apply Cursor rule is
 `.cursor/rules/project-goal.mdc`.
 
-**Current state: Brainstorming** (hackathon day started 2026-09-12). Direction: an
-**asynchronous multiplayer game** with create/join rooms on Convex. Theme/rules are
-not locked — see [BRAINSTORM.md](./BRAINSTORM.md). Do not implement until the idea
-is locked and state moves to **Development**.
+**Current state: Brainstorming** (hackathon day started 2026-09-12). Direction:
+**Rock, Paper, Scissors Royal** — live (not async) tournament in Convex rooms:
+join, lock the room, pair off, 3 rapid RPS rounds, winners play winners. See
+[BRAINSTORM.md](./BRAINSTORM.md). Do not implement until state moves to
+**Development**.
 
 ---
 

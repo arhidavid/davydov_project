@@ -1,151 +1,123 @@
-# Brainstorm: async multiplayer game on Convex
+# Brainstorm: Rock, Paper, Scissors Royal
 
-**Project state: Brainstorming.** This file is the product notebook. Do not build
-the game until the owner locks a mechanic and sets `AGENTS.md` to **Development**.
+**Project state: Brainstorming.** Product notebook. Do not build until the owner
+moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (owner: gamedev background; Convex hackathon, Belgrade).
+Last updated: 2026-09-12. Async / correspondence play is **dropped**.
 
-## What is locked
+## Locked product
 
-1. **It is a game.** The shipped demo must play, not just “be in a room.”
-2. **Asynchronous multiplayer.** A player can create or join, take an action, close
-   the phone, and come back later. The match must not require a simultaneous lobby
-   of everyone for the whole session.
-3. **Rooms.** Create a game room or join an existing one (code / link / QR). This
-   already exists in the skeleton (`convex/rooms.ts`, `convex/presence.ts`, Home/Room UI).
-4. **Convex is the game server.** Board, turns, membership, and outcomes live in
-   Convex tables + mutations. Clients subscribe with `useQuery`. No second backend.
-5. **Phone-first, no install, no AI.** Audience scans `qr.davydov-pr.com` →
-   `app.davydov-pr.com`. Anonymous device session is enough for demo day.
+**Name (working):** Rock, Paper, Scissors Royal (RPS Royal).
 
-## What is not locked
+**Who it is for:** hackathon audience on phones + a presenter with a projector QR.
 
-- Specific genre, rules, and name.
-- 1v1 vs more-than-two.
-- Whether a room holds one match or many sequential matches.
-- How “your turn” is signaled (in-page only vs. something louder). In-page + live
-  UI is enough for the hackathon; push notifications are out of scope unless asked.
+**What it is:** a **live** multiplayer tournament of rock–paper–scissors in a
+shared room. Everyone must be in the room at the same time. Convex is the
+server: lobby, lock, pairing, throws, bracket, winner.
 
-## Why async still shows off Convex
+**Loop (owner, 2026-09-12):**
 
-Convex’s judged strength is **reactive queries**. Async does not mean “refresh to
-see the move.” It means:
+1. Players **create or join** a room (code / link / QR). Lobby stays open while
+   people arrive. Presence shows who is here.
+2. Once **a few people** are in, the room **closes** to new arrivals.
+3. Current players are **split into pairs**.
+4. Each pair plays **3 rapid rounds** of rock–paper–scissors.
+5. The **winner of a pair plays the winner of another pair**. Repeat until one
+   champion (single-elimination bracket).
 
-- **Authoritative match documents** in the dashboard (rooms, players, moves).
-- **A player may be offline** between turns; state waits on the server.
-- **If they are online together**, the opponent’s move appears without polling.
+This is **synchronous party play**, not async turns you finish later.
 
-That combo is the demo: two phones + Convex dashboard watching the same `games` /
-`moves` rows update.
+## Dropped
 
-Live presence stays useful: “opponent is looking at the board right now” vs
-“they’ll see this later.” Heartbeats already exist.
+- Asynchronous / correspondence multiplayer.
+- Grid duel, dungeon, word, and card shortlist from the earlier notebook.
 
-## Constraints that kill some game ideas
+## Why this shows Convex
 
-| Constraint | Implication |
+- **Lobby:** `players` heartbeats; phones fill up live on the QR link.
+- **Lock:** one mutation flips the room closed; late joiners are rejected.
+- **Pairs + bracket:** match documents in the dashboard while phones play.
+- **Simultaneous throws:** neither client sees the opponent’s pick until both
+  (or the timer) have committed — that has to be **server-side**, not local.
+- **Many matches at once:** round 1 pairs all throw in parallel; queries fan in.
+
+Demo: projector QR → four (or eight) phones join → room locks → two (or four)
+matches resolve on screen → winners climb → dashboard shows `matches` / `throws`.
+
+## Proposed rules (defaults — confirm before Development)
+
+Owner said “a few people,” “3 rapid rounds,” “winner vs winner.” These fill the
+gaps so later agents share one picture. **Strike anything you disagree with.**
+
+| Topic | Proposed default |
 | --- | --- |
-| One-day ship + agents | Tiny rules surface. Prefer a known toy (grid, shots, tiles) over a novel sim. |
-| Audience QR | First action in **under a minute**. No tutorial wall. |
-| Mobile | Fat-finger UI: big cells/buttons, not a 64-piece RTS. |
-| No AI | No generated puzzles, opponents, or captions. |
-| Projector + virality | A board that **looks** different after each mutation (dashboard + phones). |
-| Gamedev background | One readable “game feel” moment (turn resolve, hit/miss, capture) is enough; do not spend the day on an engine. |
+| Bracket size | Power of two. **Minimum 4** (two pairs → one final). **Cap 8** for demo day (quarters → semis → final). 2 players = skip bracket, one best-of-3. |
+| Who closes the room | Room **creator** taps **Start royal** when the lobby looks full (not auto-lock on N). Prevents locking at 3 by accident. Create also **auto-starts** if lobby hits the cap (8). |
+| Odd count at start | Need **even** count to pair. If odd, last unmatched player gets a **bye** (advances without playing) rather than blocking start. Prefer waiting for 4 or 8 on stage. |
+| Late join | After lock: **no new players**. Same code shows “royal in progress” (spectate later if we have time). |
+| A match | **Exactly 3 rounds**. Win = classic RPS. Score = rounds won. Highest score after 3 advances. |
+| Round draw | Draw awards **no point**. If scores tie after 3, **sudden-death** extra rounds until one round has a winner. |
+| Rapid | Each round has a short pick window (**~5 seconds**). Both pick in secret. When both picked, or the window ends, **reveal**. Missed pick = **random** throw (still a round, still rapid). Timer via Convex scheduler, not `Date.now()` in queries. |
+| Reveal | Server reveals only when the round is locked. UI: three big buttons (✊ ✋ ✌️), then both gestures + winner. |
+| Eliminated players | **Stay in the room** and watch the rest of the bracket (they are the crowd). |
+| Identity | Existing anonymous `sessionId` + display name + emoji. No accounts. |
+| Host | Creator is a **player**, not a referee, unless they sit out (not needed for v1). |
+| Rematch | After a champion: **new lobby** or “Play again” resetting the same room to open. Nice-to-have; one royal per room is enough for v1. |
 
-Avoid for this hackathon: real-time twitch (fighting, twitch shooters), physics,
-long 4X, chess with full rules+AI, anything that needs a Node tick every frame.
+## Bracket picture (4 players)
 
-## Recommended shortlist
+```
+Lobby (open) → Start → Room locked
+  Pair A: P1 vs P2   (3 rapid rounds)  ──┐
+  Pair B: P3 vs P4   (3 rapid rounds)  ──┴── Final: winner A vs winner B
+Champion
+```
 
-All of these reuse **create/join room + presence**. They swap the tap counter /
-emoji fountain for a **turn + board** (the intended pivot).
+Eight players: same idea with an extra round of pairs.
 
-### A — Grid duel (Sea battle / Battleship-style) — **recommended default**
+## Skeleton mapping (when we build — not now)
 
-- **Loop:** Place a small fleet (or a few ships) → take shots on your turn →
-  wait for the opponent → hit/miss/sunk → first to sink wins.
-- **Why:** Instantly understood. Native async. Two phones + a table of `shots` in
-  the dashboard is a clean Convex story. UI is a pair of grids.
-- **Players:** 1v1 (spectators can join the room as watch-only later if time).
-- **Risk:** Feels “board-game generic” if the presentation is dry. Mitigate with
-  punchy hit feedback and a named theme (not “Battleship clone” on the home screen).
+Keep:
 
-### B — Five-in-a-row / Connect-style disc drop
+- `rooms` + 4-char codes, Home create/join, `?r=CODE`, QR worker.
+- `players` presence (roster + online).
 
-- **Loop:** Drop or place a token; alternate; N-in-a-row wins.
-- **Why:** Smallest rules, fastest to finish a match on stage.
-- **Risk:** Looks like a tutorial app unless the room/social layer is excellent.
-  Use only if we need maximum safety on clock.
+Stop featuring as the product:
 
-### C — Shared-dungeon mail (tiny tactics)
+- Tap counter.
+- Emoji fountain as the core loop (optional garnish on reveal).
 
-- **Loop:** Same map in Convex. On your turn you move one unit or play one action;
-  then it is the other player’s turn (PvE boss HP shared, or PvP).
-- **Why:** Best “I have a gamedev background” flex; dashboard shows a living map.
-- **Risk:** Scope. Only lock this if the owner wants a **very** small map (e.g.
-  6×6, one unit each, one enemy) and will cut art to CSS shapes.
+Add (illustrative, not a schema to implement yet):
 
-### D — Word / tile duel (Words-with-Friends-lite)
+- Room `status`: `lobby` → `locked` / `playing` → `finished`.
+- `matches`: room, bracket round, player A/B, scores, winner, phase.
+- `throws`: match + round index + sessionId + choice; **do not leak** the
+  opponent’s choice in any query until the round is resolved.
+- Mutations: `startRoyal` (pair + close), `throw` (commit pick), maybe
+  `internal` round-timeout.
+- Queries: room+bracket for everyone; per-player view that hides secrets.
 
-- **Loop:** Play a word or a tile set, score, pass the turn.
-- **Why:** Classic async; keyboards on phones are fine.
-- **Risk:** Dictionary + scoring + UI density. Easy to overrun the day.
-
-### E — Spell / card stack (one card per turn)
-
-- **Loop:** Hidden hand in Convex, play one card, resolve, opponent responds later.
-- **Why:** Mutations-as-rules is a strong Convex demo.
-- **Risk:** Needs a tiny locked card list (8 cards max) on day one or it sprawls.
-
-**Owner pick needed:** A, B, C, D, E, or a different mechanic that still fits the
-locked row (async + rooms + Convex). Until then, treat **A** as the planning default
-so later agents share one picture.
-
-## How this maps onto the skeleton (when we build)
-
-Keep; do not replace:
-
-- `rooms` — become **game rooms** (code, name, maybe `status`: lobby / placing /
-  playing / finished).
-- `players` / presence — roster + “online now” + display name/emoji.
-- Home create/join + `?r=CODE` + QR worker.
-
-Replace / stop featuring as the product:
-
-- Room `taps` counter.
-- Emoji fountain as the core loop (fine as a tiny garnish if it does not eat time).
-
-Add (illustrative — not a schema to implement yet):
-
-- A `games` or match fields on `rooms` (turn index, whose `sessionId`, phase).
-- A `moves` (or `shots` / `tiles`) table indexed by room — append-only history.
-- Queries: `getMatch`, `listMoves`. Mutations: `join`, `submitTurn` (reject if
-  not your turn / illegal). Optional `internalMutation` to mark timeouts later.
-
-Anonymous `sessionId` in `localStorage` stays the identity. Public functions stay
-unguessable-ID scoped (room id + session), not email auth, unless the owner asks.
+Rules live in Convex mutations. Clients only send `rock | paper | scissors`.
 
 ## Demo day story (once built)
 
-1. Projector: QR → public app.
-2. Presenter creates a room; audience joins on phones (or one volunteer as P2).
-3. Take a turn on phone A; phone B and the **Convex dashboard** show the new row.
-4. Leave and reopen the same link — state is still there (the async proof).
-5. Optional: both stay in the room so the next shot feels live.
+1. Projector: QR → public app; presenter creates a room.
+2. Audience joins on phones until 4 or 8.
+3. Start royal → door closes; pairs appear on every phone and in the dashboard.
+4. Rapid throws; losers become spectators; winners climb.
+5. Champion screen. Dashboard: rooms, matches, throws.
 
-## Open questions for the owner
+## Open questions (short)
 
-Answer these to lock the idea and move to **Development**:
+1. Confirm **4–8**, host **Start**, bye if odd?
+2. Confirm **exactly 3 rounds** + sudden-death on tie, not “first to 2”?
+3. Confirm **~5s** pick + random on timeout, vs wait forever for both?
+4. Working title **RPS Royal** or something else?
+5. After the final: freeze on champion, or one-tap rematch?
 
-1. Mechanic: **A / B / C / D / E / other**?
-2. Strict **1v1**, or allow a spectator crowd in the same room?
-3. Room = **one match**, or rematch in the same code?
-4. Working title / theme (naval, space, dungeon, abstract)?
-5. Confirm: still **no accounts**, just device session + display name?
+## Agent rules
 
-## Agent rules while this file is current
-
-- Stay in **Brainstorming**: refine this doc if the owner replies; **do not** add
-  game tables, Phaser, or a new backend.
-- When locked: copy the chosen one-liner into `AGENTS.md` (“who / what”), set
-  current state to **Development**, then implement on the rooms skeleton.
+- Stay in **Brainstorming**. Refine this doc; **do not** add game tables or a
+  second backend.
+- When the owner says go: copy the one-liner into `AGENTS.md`, set state to
+  **Development**, implement on the rooms skeleton.
