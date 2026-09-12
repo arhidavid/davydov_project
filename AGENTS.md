@@ -3,10 +3,11 @@
 This is a **Cursor Belgrade Hackathon** project (Grok Bot Serbia Hackathon, 12 September 2026).
 The category to win is [Convex](https://www.convex.dev/).
 
-The product is **Rock, Paper, Scissors Royal**: a live (not async) multiplayer
-tournament in Convex rooms. Exact start sizes and timers still have proposed
-defaults in [BRAINSTORM.md](./BRAINSTORM.md). A rooms skeleton already lives in
-this repo (Convex + Vite + React). Do not replace it with a different backend.
+The product is **Rock, Paper, Scissors Royal**: live matchmade tournaments on
+Convex (brackets of 4 / 8 / 16). Players do **not** create or join rooms.
+Details and stretch (fake players) are in [BRAINSTORM.md](./BRAINSTORM.md).
+A rooms skeleton already lives in this repo (Convex + Vite + React). Do not
+replace it with a different backend.
 
 ## Project state
 
@@ -27,23 +28,23 @@ When the idea is locked, write it into this file (who it is for, what it does) s
 ## Product direction (Brainstorming — idea chosen, not building yet)
 
 Owner plan on 2026-09-12. **Do not implement** until state moves to **Development**.
-Async / correspondence play is **out**.
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **Rock, Paper, Scissors Royal** — live party tournament. | Exact lobby size (propose 4–8). |
-| **Create or join rooms**; then the room **closes** to new arrivals. | Who taps Start vs auto-start at cap. |
-| Players **split into pairs**; each pair plays **3 rapid RPS rounds**. | Draws, timeouts, odd-player bye. |
-| **Winner vs winner** until one champion (bracket). | Rematch in the same room. |
-| Backend **Convex**. Keep `rooms` + `presence`. Mobile, no AI, no accounts. | Art / final name. |
+| **RPS Royal** — live tournament, not async. | Queue window vs instant start at 4. |
+| **Server-side matchmaking.** No player create/join rooms or join codes. | How fake players pad (4 vs 8 vs 16). |
+| Brackets of **4, 8, or 16** only. Odd starts **impossible**. | Sudden-death on 3-round ties. |
+| Pairs play **3 rapid rounds**; **10 seconds** to pick. Winner vs winner. | Champion splash vs instant home. |
+| **Losers boot** to a start screen with one button: **Start matchmaking**. No spectate. | Display name / emoji on first visit. |
+| **Fake players** = stretch, not v1. Convex backend. No AI, no accounts. | Art / final name. |
 
 **Who it is for:** hackathon audience + judges on phones; a presenter with a projector QR.
 
-**What it does:** people join a room from a link/QR. When the royal starts, the
-door closes, Convex pairs everyone, each pair throws rock/paper/scissors for three
-fast rounds, winners climb the bracket until a champion.
+**What it does:** scan/open the app, tap **Start matchmaking**. Convex queues
+players and starts a 4/8/16 royal, pairs them, runs 10s RPS rounds, winners
+climb, losers land back on the same button.
 
-Details, proposed defaults, Convex mapping: [BRAINSTORM.md](./BRAINSTORM.md).
+Details: [BRAINSTORM.md](./BRAINSTORM.md).
 
 ## Leaving preparation
 
@@ -82,7 +83,8 @@ Every task in this repo is work toward that hackathon demo. Before changing arch
 - Wire features through Convex (queries, mutations, live data). Local `convex dev` is for development; the destination is a product running on Convex.
 - If a hosted Convex, Fly.io, or Cloudflare deployment needs credentials, ask the owner — do not drop Convex or substitute another backend.
 - Treat the owner's request as a slice of this product, not as a greenfield repo with no purpose.
-- Pivot by swapping the tap-counter / reactions mechanic. Keep `rooms` + `presence` — they are the parts every multiplayer idea needs.
+- Pivot by swapping the tap-counter / create-join-room UX for **matchmaking +
+  RPS royals**. Keep Convex; reuse presence **inside** a royal if needed.
 
 ## Layout (for agents)
 
