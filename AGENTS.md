@@ -54,7 +54,8 @@ Details: [BRAINSTORM.md](./BRAINSTORM.md). Build order:
 
 ## Implementation slices
 
-**Current slice: 9** (Deploy). Slice 8 is **done**.
+**Current slice: 10** (Fake players, stretch). Slice 9 is **done**.
+Do **not** start slice 10 unless leftover time after the public demo works.
 Agents implement **one** required slice per change, then mark it done here
 and in `IMPLEMENTATION.md`.
 
@@ -68,8 +69,8 @@ and in `IMPLEMENTATION.md`.
 | 6 | Phone UI for searching → match → splash → main menu | **done** |
 | 7 | Disconnect: 20s grace; leaver loses; both gone → random advance | **done** |
 | 8 | Polish, tests, retire tap-counter / room-code product path | **done** |
-| 9 | Deploy Pages + hosted Convex; QR still hits the app | **next** |
-| 10 | Fake players pad-up | **stretch** — not until 1–8 work |
+| 9 | Deploy Pages + hosted Convex; QR still hits the app | **done** |
+| 10 | Fake players pad-up | **stretch** — not until leftover time |
 
 ## Leaving preparation
 
@@ -80,7 +81,7 @@ Preparation is **complete** (owner confirmed move to **Awaiting hackathon day** 
 - [x] **Cloud Agents can run it** — a new agent can install and start Vite plus a Convex backend without extra setup (see `.cursor/environment.json`).
 - [x] **Convex path is proven** — a query and a mutation round-trip in the running app (the starter sample is enough). Rooms, presence, taps, and reactions do this; `npm test` covers the Convex functions.
 - [x] **Convex service is ready** — hosted Convex project `mike-dav/convex-party` exists. Cloud Agents have both deploy keys, verified 2026-09-10: `CONVEX_DEV_DEPLOY_KEY` → `dev:artful-dog-585` (`https://artful-dog-585.eu-west-1.convex.cloud`); `CONVEX_DEPLOY_KEY` → `prod:rosy-manatee-43` (`https://rosy-manatee-43.eu-west-1.convex.cloud`). Each passed `npx convex env list`, `function-spec`, and a `rooms:create` / `rooms:get` round-trip. Dashboard: https://dashboard.convex.dev/t/mike-dav/convex-party/artful-dog-585. Use the prod key for Cloudflare Pages production Convex pushes.
-- [x] **Audience QR** — public demo + stage QR are live. Hosting layout (locked): `davydov-pr.com` = personal calling card (**leave alone**); **`qr.davydov-pr.com`** = projector QR Worker (`davydov-qr`, retarget via `TARGET_URL` / `?url=`); **`app.davydov-pr.com`** = Cloudflare Pages project `convex-party` (also `https://convex-party.pages.dev`) wired to hosted Convex `artful-dog-585`. Verified: Worker deploy + custom domain, Pages deploy + `app` CNAME, `GET https://qr.davydov-pr.com/target` → `https://app.davydov-pr.com/`, public app HTML over HTTPS. Cloud Agents use `CLOUDFLARE_API_TOKEN` (account `Bunkmaster` / `9e65f2f645a419770d1f6d770b4bee40`). Redeploy: `npm run qr:deploy`, `npm run pages:deploy`. **Note:** Pages currently points at the **dev** Convex URL (`artful-dog-585`); switch build env to `https://rosy-manatee-43.eu-west-1.convex.cloud` when promoting to prod.
+- [x] **Audience QR** — public demo + stage QR are live. Hosting layout (locked): `davydov-pr.com` = personal calling card (**leave alone**); **`qr.davydov-pr.com`** = projector QR Worker (`davydov-qr`, retarget via `TARGET_URL` / `?url=`); **`app.davydov-pr.com`** = Cloudflare Pages project `convex-party` (also `https://convex-party.pages.dev`) wired to hosted Convex `artful-dog-585`. Verified: Worker deploy + custom domain, Pages deploy + `app` CNAME, `GET https://qr.davydov-pr.com/target` → `https://app.davydov-pr.com/`, public app HTML over HTTPS. Cloud Agents use `CLOUDFLARE_API_TOKEN` (account `Bunkmaster` / `9e65f2f645a419770d1f6d770b4bee40`). Redeploy: `npm run qr:deploy`, `npm run pages:deploy`. **Note:** Slice 9 (2026-09-12) pushed KPM functions to both hosted Convex deployments. Public Pages still bakes `VITE_CONVEX_URL=https://artful-dog-585.eu-west-1.convex.cloud`. Prod Convex is live at `https://rosy-manatee-43.eu-west-1.convex.cloud` if you later rebuild Pages with that URL. Apex `davydov-pr.com` stays untouched.
 
 ## Goal
 

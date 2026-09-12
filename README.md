@@ -9,9 +9,9 @@ This is the Cursor Belgrade Hackathon (Convex category) product. Spec:
 [IMPLEMENTATION.md](./IMPLEMENTATION.md). Agent context:
 [AGENTS.md](./AGENTS.md).
 
-**Current state: Development.** v1 loop is slices 1–8 (home → queue →
-matchmaker → rounds → bracket → phone UI → disconnect → polish). Slice **9**
-is public deploy.
+**Current state: Development.** v1 loop (slices 1–8) and public deploy
+(slice **9**) are done. Slice **10** is stretch fake players — do not start
+unless leftover time.
 
 ---
 
@@ -115,10 +115,11 @@ Public hosting is live (Cloudflare account `Bunkmaster`, account id
 | https://qr.davydov-pr.com | Stage projector QR (`TARGET_URL` → app; check `GET /target`) |
 | https://davydov-pr.com | Personal site — **do not overwrite** |
 
-The live Pages build currently bakes `VITE_CONVEX_URL` as the **dev** deployment
-(`https://artful-dog-585.eu-west-1.convex.cloud`). That is fine until you promote. To point the
-public app at prod Convex, rebuild Pages with
-`VITE_CONVEX_URL=https://rosy-manatee-43.eu-west-1.convex.cloud` (or run `npx convex deploy --cmd
+Slice 9 (2026-09-12) pushed KPM functions to both hosted Convex deployments.
+The live Pages build bakes `VITE_CONVEX_URL` as the **dev** deployment
+(`https://artful-dog-585.eu-west-1.convex.cloud`). Prod Convex
+(`https://rosy-manatee-43.eu-west-1.convex.cloud`) is in sync; to point the
+public app at it, rebuild Pages with that URL (or run `npx convex deploy --cmd
 'vite build'` with `CONVEX_DEPLOY_KEY`).
 
 Redeploy from a Cloud Agent (needs `CLOUDFLARE_API_TOKEN`; set
