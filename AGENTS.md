@@ -4,8 +4,8 @@ This is a **Cursor Belgrade Hackathon** project (Grok Bot Serbia Hackathon, 12 S
 The category to win is [Convex](https://www.convex.dev/).
 
 The product is **Rock, Paper, Scissors Royal**: live matchmade tournaments on
-Convex (brackets of 4 / 8 / 16). Players do **not** create or join rooms.
-Fake players pad the queue **up** to the next bracket size. Details:
+Convex (brackets of **4 / 8 / 16** real players). Players do **not** create or
+join rooms. Fake players are **out of scope** unless time remains. Details:
 [BRAINSTORM.md](./BRAINSTORM.md). A rooms skeleton already lives in this repo
 (Convex + Vite + React). Do not replace it with a different backend.
 
@@ -31,19 +31,19 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **RPS Royal** — live tournament, not async. | When the matcher **commits** (wait to gather humans vs pad immediately). |
+| **RPS Royal** — live tournament, not async. | Queue window vs start as soon as 4/8/16 humans exist. |
 | **Server-side matchmaking.** No player create/join rooms or join codes. | Sudden-death on 3-round ties. |
-| Brackets of **4, 8, or 16** only. Odd starts **impossible**. | Champion splash vs instant home. |
+| Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. | Champion splash vs instant home. |
 | Pairs play **3 rapid rounds**; **10 seconds** to pick. Winner vs winner. | Display name / emoji on first visit. |
 | **Losers boot** to a start screen with one button: **Start matchmaking**. No spectate. | Art / final name. |
-| **Fake players pad up** to the next size: 1–3→4, 5–7→8, 9–15→16. Exact 4/8/16 = no fakes. |  |
+| **v1 = real players only.** Fake players only if time. |  |
 | Convex backend. No AI, no accounts. |  |
 
 **Who it is for:** hackathon audience + judges on phones; a presenter with a projector QR.
 
 **What it does:** scan/open the app, tap **Start matchmaking**. Convex queues
-players, pads with fake players **up** to 4, 8, or 16, runs 10s RPS rounds,
-winners climb, losers land back on the same button.
+real players and starts a 4/8/16 royal, runs 10s RPS rounds, winners climb,
+losers land back on the same button.
 
 Details: [BRAINSTORM.md](./BRAINSTORM.md).
 
