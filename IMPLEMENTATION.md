@@ -4,8 +4,9 @@
 This file is the **build order**. Do not implement a later slice until the
 previous **required** slices are done (see [Dependencies](#dependencies)).
 
-**Current slice: 9** — Deploy. Slice 8 is done. Update this line and the
-table in [AGENTS.md](./AGENTS.md) when a slice lands on `main`.
+**Current slice: 10** — Fake players (stretch). Slice 9 is done. Do **not**
+start slice 10 unless leftover time. Update this line and the table in
+[AGENTS.md](./AGENTS.md) when a slice lands on `main`.
 
 v1 = slices **1–8**. Slice **9** is deploy. Slice **10** is stretch (fake
 players) — **do not start** until 1–8 work on phones.
@@ -269,6 +270,8 @@ layout checked. No AI features.
 
 ## Slice 9 — Public deploy
 
+**Status:** done (2026-09-12).
+
 **Demo after this:** audience QR (`https://qr.davydov-pr.com`) opens
 **KPM Royale** on `https://app.davydov-pr.com`, talking to hosted Convex.
 
@@ -276,6 +279,11 @@ layout checked. No AI features.
 already uses (`artful-dog-585` until promoting). Prod promotion:
 `CONVEX_DEPLOY_KEY` + `VITE_CONVEX_URL=https://rosy-manatee-43.eu-west-1.convex.cloud`.
 Do **not** overwrite `davydov-pr.com` apex.
+
+**Shipped:** KPM Convex functions on `artful-dog-585` (Pages) and
+`rosy-manatee-43` (prod). Pages rebuild baked
+`https://artful-dog-585.eu-west-1.convex.cloud`. QR `GET /target` still
+`https://app.davydov-pr.com/`. Apex left alone.
 
 **Done when:** `GET https://qr.davydov-pr.com/target` still points at the app;
 two real phones can queue on the public URL.
