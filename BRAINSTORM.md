@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (leaver loses after 20s).
+Last updated: 2026-09-12 (cancel matchmaking).
 
 ## Locked product
 
@@ -20,7 +20,8 @@ codes, no spectators.
 
 1. Open the public URL (QR or link). Main menu: **random name + random emoji**
    (same as today’s `session` helper), with an option to **change** them, plus
-   **Start matchmaking**.
+   **Start matchmaking**. While searching, the player **can cancel** and return
+   to the main menu (leave the queue).
 2. Convex queues the player. After **4** real players are waiting, the matcher
    waits **20 seconds** in case more join (for 8 or 16), then starts the
    **largest exact** bracket (4, 8, or 16). Hitting **8** during that wait
@@ -92,7 +93,7 @@ royal → throws in the dashboard → losers get **you lost** → champion gets
 | Topic | Default |
 | --- | --- |
 | Branding | Home title **KPM Royale**. Tagline **Kamen! Papir! Makaze! ✊ ✋ ✌️**. |
-| Entry | **Server matchmaking only.** Main menu = identity (random, editable) + **Start matchmaking**. QR opens that screen. |
+| Entry | **Server matchmaking only.** Main menu = identity (random, editable) + **Start matchmaking**. QR opens that screen. Searching: **Cancel** returns to main menu and drops the player from the queue. |
 | Bracket sizes | **4, 8, or 16** only. Never 2, 3, 5, … |
 | When to start (v1) | After **4** queued: wait **20 seconds**, then largest exact 4/8/16. After **8** queued: wait **20 seconds** more for a 16. **16 starts immediately.** Leftovers stay queued. |
 | 17+ humans | Start a **16**; leftovers stay queued. |
@@ -160,7 +161,8 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. Can you **cancel matchmaking** while searching (20s gather), or is the only way out to wait?
+1. If **both** players in a pair are gone past the 20s grace: both lose and the
+   other bracket pair waits, or skip / random advance?
 
 ## Agent rules
 
