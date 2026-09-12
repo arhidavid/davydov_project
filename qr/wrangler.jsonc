@@ -16,7 +16,8 @@
   //   npx wrangler secret put TARGET_URL   (or set plain var in dashboard → Variables)
   // then hard-refresh the projector tab.
   "vars": {
-    "TARGET_URL": "https://app.davydov-pr.com"
+    "TARGET_URL": "https://app.davydov-pr.com",
+    "CONVEX_URL": "https://artful-dog-585.eu-west-1.convex.cloud"
   },
   "observability": {
     "enabled": true

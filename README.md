@@ -113,6 +113,7 @@ Public hosting is live (Cloudflare account `Bunkmaster`, account id
 | https://app.davydov-pr.com | Hackathon app (Pages project `convex-party`) |
 | https://convex-party.pages.dev | Same app (Pages alias) |
 | https://qr.davydov-pr.com | Stage projector QR (`TARGET_URL` → app; check `GET /target`) |
+| https://qr.davydov-pr.com/dashboard | Live Convex stats (`stats:live`) + scan QR |
 | https://davydov-pr.com | Personal site — **do not overwrite** |
 
 Slice 9 (2026-09-12) pushed KPM functions to both hosted Convex deployments.
@@ -169,7 +170,7 @@ Hosted Convex is already set up. Keys are minted and verified; do **not** mint a
 │   ├── bracket.ts          # winner vs winner
 │   ├── disconnect.ts       # 20s grace + forfeit
 │   └── _generated/         # committed generated API types
-├── qr/                     # Cloudflare Worker → qr.davydov-pr.com (projector QR)
+├── qr/                     # Cloudflare Worker → qr.davydov-pr.com (QR + /dashboard)
 ├── src/                    # React + Vite frontend (mobile-first)
 │   ├── components/Home.tsx
 │   ├── components/Searching.tsx

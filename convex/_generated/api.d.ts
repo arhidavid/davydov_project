@@ -14,6 +14,7 @@ import type * as matches from "../matches.js";
 import type * as matchmaking from "../matchmaking.js";
 import type * as queue from "../queue.js";
 import type * as rpsLogic from "../rpsLogic.js";
+import type * as stats from "../stats.js";
 
 import type {
   ApiFromModules,
@@ -28,6 +29,7 @@ declare const fullApi: ApiFromModules<{
   matchmaking: typeof matchmaking;
   queue: typeof queue;
   rpsLogic: typeof rpsLogic;
+  stats: typeof stats;
 }>;
 
 /**
