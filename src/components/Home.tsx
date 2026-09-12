@@ -7,7 +7,15 @@ import {
   setName as persistName,
 } from "../lib/session.js";
 
-export function Home({ onStartMatchmaking }: { onStartMatchmaking: () => void }) {
+export function Home({
+  onStartMatchmaking,
+  busy = false,
+  error = null,
+}: {
+  onStartMatchmaking: () => void;
+  busy?: boolean;
+  error?: string | null;
+}) {
   const [name, setName] = useState(getName);
   const [emoji, setEmoji] = useState(getEmoji);
 
@@ -72,9 +80,15 @@ export function Home({ onStartMatchmaking }: { onStartMatchmaking: () => void })
           ))}
         </div>
 
-        <button type="button" className="btn btn-primary btn-lg" onClick={handleStart}>
-          Start matchmaking
+        <button
+          type="button"
+          className="btn btn-primary btn-lg"
+          onClick={handleStart}
+          disabled={busy}
+        >
+          {busy ? "…" : "Start matchmaking"}
         </button>
+        {error ? <div className="error">{error}</div> : null}
       </div>
 
       <footer className="foot">Scan. Queue. Throw. Climb.</footer>
