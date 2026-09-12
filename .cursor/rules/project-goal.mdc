@@ -4,4 +4,4 @@ alwaysApply: true
 
 Follow the project goal and **current project state** in @AGENTS.md for every task.
 
-This is a Cursor Belgrade Hackathon build. The final project **must include and use the Convex service** as its backend. The live demo must be on a **public URL** with a **QR code** the audience can scan (Fly.io and Cloudflare accounts are available). Do not skip ahead of the current state. While **Brainstorming**, propose and refine app ideas — do not implement until the idea is locked. Ship a demo-ready product that depends on Convex — not a UI that could run without it.
+This is a Cursor Belgrade Hackathon build. The final project **must include and use the Convex service** as its backend. The live demo must be on a **public URL** with a **QR code** the audience can scan (Fly.io and Cloudflare accounts are available). Do not skip ahead of the current state. Current product is **KPM Royale**; follow @AGENTS.md and @BRAINSTORM.md. Ship a demo-ready product that depends on Convex — not a UI that could run without it.

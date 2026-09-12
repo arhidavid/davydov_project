@@ -1,9 +1,9 @@
-# Brainstorm: KPM Royale
+# Spec: KPM Royale
 
-**Project state: Brainstorming.** Product notebook. Do not build until the owner
-moves `AGENTS.md` to **Development**.
+**Project state: Development.** This file is the locked product spec. Build
+**real-player** matchmaking + royals on Convex. Fake players only if time.
 
-Last updated: 2026-09-12 (UI mix: SR title, EN chrome).
+Last updated: 2026-09-12 (moved to Development).
 
 ## Locked product
 
@@ -90,7 +90,7 @@ Demo: projector QR → everyone taps **Start matchmaking** → Convex fills a 4/
 royal → throws in the dashboard → losers get **you lost** → champion gets
 **you are a winner** → **Back to main menu**.
 
-## Proposed rules (defaults — confirm or strike)
+## Rules (locked)
 
 | Topic | Default |
 | --- | --- |
@@ -125,7 +125,7 @@ Start matchmaking → Convex queue → pop 8
 
 16 = one extra round of pairs. 4 = two pairs then a final.
 
-## Skeleton mapping (when we build — not now)
+## Skeleton mapping (implement this)
 
 Reuse internally, **not** as create/join UX:
 
@@ -139,7 +139,7 @@ Stop featuring:
 - Tap counter, emoji fountain as the loop.
 - Spectator roster of eliminated players.
 
-Add (illustrative, not a schema to implement yet):
+Add:
 
 - `queue`: session waiting for matchmaking.
 - `royals` (or keep `rooms` as the match instance): size 4/8/16, status.
@@ -163,11 +163,10 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-None blocking. Owner can move `AGENTS.md` to **Development** when ready to build.
+None blocking. Spec is locked.
 
 ## Agent rules
 
-- Stay in **Brainstorming**. Refine this doc; **do not** implement yet.
-- When the owner says go: set `AGENTS.md` to **Development**, build **real-player**
-  queue + royals on Convex. **Do not** add fake players unless the owner says
-  there is time.
+- State is **Development**. Implement **real-player** queue + royals on Convex
+  per this file. **Do not** add fake players unless leftover time after v1 works.
+- Do not add a second backend. Keep the public QR → `app.davydov-pr.com` path.
