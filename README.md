@@ -114,8 +114,8 @@ coding so you do not collide with the shared hosted deployments.
 | `npm run dev` | Convex backend + Vite frontend together |
 | `npm run build` | Type-check and build the frontend (`dist/`) |
 | `npm run typecheck` | Type-check without emitting |
-| `npm test` | Convex function tests (Vitest + `convex-test`) |
-| `npm run qr:test` | Presenter QR Worker tests |
+| `npm test` | Convex function tests only (`convex/**`; does not load `qr/`) |
+| `npm run qr:test` | Presenter QR Worker tests (`cd qr && npm install` first) |
 | `npm run pages:deploy` | Vite build + Wrangler Pages deploy to `convex-party` |
 | `npm run qr:deploy` | Deploy Worker `davydov-qr` + `qr.davydov-pr.com` |
 | `npm run deploy` | `convex deploy --cmd 'vite build'` (production Convex; uses `CONVEX_DEPLOY_KEY`) |

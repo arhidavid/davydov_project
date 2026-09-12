@@ -31,8 +31,11 @@ Emergency override (does not persist): `https://qr.davydov-pr.com/?url=https://â
 cd qr
 npm install
 npm run dev          # http://127.0.0.1:8787
-npm test
+npm test             # or from repo root: npm run qr:test
 ```
+
+Root `npm test` does **not** run these files. The Worker depends on `uqr`,
+which is installed only in `qr/node_modules`.
 
 ## Deploy
 
