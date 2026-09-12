@@ -54,7 +54,7 @@ Details: [BRAINSTORM.md](./BRAINSTORM.md). Build order:
 
 ## Implementation slices
 
-**Current slice: 7** (Disconnect). Slice 6 is **done**.
+**Current slice: 8** (Polish). Slice 7 is **done**.
 Agents implement **one** required slice per change, then mark it done here
 and in `IMPLEMENTATION.md`.
 
@@ -66,7 +66,7 @@ and in `IMPLEMENTATION.md`.
 | 4 | Round engine: 10s secret throws, miss/draw/win, extras, 10-draw random | **done** |
 | 5 | Bracket climb + `you lost` / `you are a winner` **data** | **done** |
 | 6 | Phone UI for searching → match → splash → main menu | **done** |
-| 7 | Disconnect: 20s grace; leaver loses; both gone → random advance | pending |
+| 7 | Disconnect: 20s grace; leaver loses; both gone → random advance | **done** |
 | 8 | Polish, tests, retire tap-counter / room-code product path | pending |
 | 9 | Deploy Pages + hosted Convex; QR still hits the app | pending |
 | 10 | Fake players pad-up | **stretch** — not until 1–8 work |

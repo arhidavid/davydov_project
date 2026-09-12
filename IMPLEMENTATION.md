@@ -4,7 +4,7 @@
 This file is the **build order**. Do not implement a later slice until the
 previous **required** slices are done (see [Dependencies](#dependencies)).
 
-**Current slice: 7** — Disconnect. Slice 6 is done. Update this line and the
+**Current slice: 8** — Polish. Slice 7 is done. Update this line and the
 table in [AGENTS.md](./AGENTS.md) when a slice lands on `main`.
 
 v1 = slices **1–8**. Slice **9** is deploy. Slice **10** is stretch (fake
@@ -236,6 +236,8 @@ Back to menu returns to slice 1 home and does not leave a stale queue row.
 ---
 
 ## Slice 7 — Disconnect / reconnect
+
+**Status:** done.
 
 **Demo after this:** close a phone mid-match → 20s grace (match waits) →
 reconnect with the same `sessionId` continues; if grace ends, **leaver

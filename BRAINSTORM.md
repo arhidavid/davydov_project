@@ -6,7 +6,7 @@
 Last updated: 2026-09-12 (implementation slices written).
 
 Build order (do not skip): [IMPLEMENTATION.md](./IMPLEMENTATION.md).
-**Current slice: 7** — Disconnect. Slice 6 is done.
+**Current slice: 8** — Polish. Slice 7 is done.
 
 ## Locked product
 
