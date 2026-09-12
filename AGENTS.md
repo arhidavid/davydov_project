@@ -31,11 +31,11 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **RPS Royal** — live tournament, not async. | Sudden-death on 3-round ties. |
-| **Server-side matchmaking.** No player create/join rooms or join codes. | Champion splash vs instant home. |
-| Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. | Display name / emoji on first visit. |
-| After **4** (and **8**) queued, wait **20 seconds**; then largest exact 4/8/16. **16 starts immediately.** | Art / final name. |
-| Pairs play **3 rapid rounds**; **10 seconds** to pick. Winner vs winner. |  |
+| **RPS Royal** — live tournament, not async. | Champion splash vs instant home. |
+| **Server-side matchmaking.** No player create/join rooms or join codes. | Display name / emoji on first visit. |
+| Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. | Art / final name. |
+| After **4** (and **8**) queued, wait **20 seconds**; then largest exact 4/8/16. **16 starts immediately.** |  |
+| Pairs play **3 rapid rounds** (10s each). If still tied, **extra rounds until someone wins**. Winner vs winner. |  |
 | **Losers boot** to a start screen with one button: **Start matchmaking**. No spectate. |  |
 | **v1 = real players only.** Fake players only if time. Convex. No AI, no accounts. |  |
 

@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (20s gather window).
+Last updated: 2026-09-12 (extra rounds until a winner).
 
 ## Locked product
 
@@ -23,7 +23,9 @@ codes, no spectators.
    **largest exact** bracket (4, 8, or 16). Hitting **8** during that wait
    starts another **20 seconds** in case a 16 can form. Hitting **16** starts
    immediately. Odd counts never start.
-3. Each pair plays **3 rapid rounds**. **10 seconds** to pick each round.
+3. Each pair plays **3 rapid rounds**. **10 seconds** to pick each round. A
+   round draw scores nothing. If the match is still tied after 3, they play
+   **extra rounds until someone wins a round**.
 4. **Winner vs winner** until one champion.
 5. A player who **loses is booted** to the start screen (same single button).
    They are not spectators.
@@ -89,7 +91,7 @@ can queue again.
 | Odd players | **Impossible** at royal start. Matcher never commits an odd roster. |
 | Late join | New taps go to the **queue**, not into a royal already playing. |
 | A match | **Exactly 3 rounds**. Classic RPS. Score = rounds won. |
-| Round draw | No point. Tie after 3 → **sudden-death** rounds. |
+| Round draw | No point. If the pair is still tied after 3 rounds, **extra rounds until someone wins a round** (same 10s pick). |
 | Pick window | **10 seconds**. Both pick in secret. Window end or both picked → reveal. Missed pick = **random** throw. Timer via Convex scheduler, not `Date.now()` in queries. |
 | Reveal | Three big buttons (✊ ✋ ✌️), then both gestures + who won the round. |
 | On loss | **Boot to start screen.** No spectate, no linger in the royal. |
@@ -147,9 +149,8 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. Sudden-death on 3-round ties?
-2. Champion: brief win splash, then the same button?
-3. Display name on first visit, or emoji-only until later?
+1. Champion: brief win splash, then the same button?
+2. Display name on first visit, or emoji-only until later?
 
 ## Agent rules
 
