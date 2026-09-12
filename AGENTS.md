@@ -31,13 +31,14 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **RPS Royal** — live tournament, not async. | Display name / emoji on first visit. |
-| **Server-side matchmaking.** No player create/join rooms or join codes. | Art / final name. |
+| **RPS Royal** — live tournament, not async. | Art / final name on the home screen. |
+| **Server-side matchmaking.** No player create/join rooms or join codes. |  |
 | Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. |  |
 | After **4** (and **8**) queued, wait **20 seconds**; then largest exact 4/8/16. **16 starts immediately.** |  |
 | Pairs play **3 rapid rounds** (10s each). If still tied, **extra rounds until someone wins**. Winner vs winner. |  |
 | End-of-run splash: champion **you are a winner**, loser **you lost**; both have **Back to main menu**. No spectate. |  |
-| **v1 = real players only.** Fake players only if time. Convex. No AI, no accounts. |  |
+| Identity: random name + random emoji (existing session helper), **editable** on the main menu. No accounts. |  |
+| **v1 = real players only.** Fake players only if time. Convex. |  |
 
 **Who it is for:** hackathon audience + judges on phones; a presenter with a projector QR.
 

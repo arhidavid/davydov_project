@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (win/loss splash).
+Last updated: 2026-09-12 (identity = random + editable).
 
 ## Locked product
 
@@ -17,7 +17,9 @@ codes, no spectators.
 
 **Loop (owner, 2026-09-12):**
 
-1. Open the public URL (QR or link). Home is one button: **Start matchmaking**.
+1. Open the public URL (QR or link). Main menu: **random name + random emoji**
+   (same as today’s `session` helper), with an option to **change** them, plus
+   **Start matchmaking**.
 2. Convex queues the player. After **4** real players are waiting, the matcher
    waits **20 seconds** in case more join (for 8 or 16), then starts the
    **largest exact** bracket (4, 8, or 16). Hitting **8** during that wait
@@ -85,7 +87,7 @@ royal → throws in the dashboard → losers get **you lost** → champion gets
 
 | Topic | Default |
 | --- | --- |
-| Entry | **Server matchmaking only.** Home = **Start matchmaking**. QR opens that screen. |
+| Entry | **Server matchmaking only.** Main menu = identity (random, editable) + **Start matchmaking**. QR opens that screen. |
 | Bracket sizes | **4, 8, or 16** only. Never 2, 3, 5, … |
 | When to start (v1) | After **4** queued: wait **20 seconds**, then largest exact 4/8/16. After **8** queued: wait **20 seconds** more for a 16. **16 starts immediately.** Leftovers stay queued. |
 | 17+ humans | Start a **16**; leftovers stay queued. |
@@ -99,7 +101,7 @@ royal → throws in the dashboard → losers get **you lost** → champion gets
 | On loss | Out of the royal (no spectate). Splash: **you lost**. Button: **Back to main menu**. |
 | On win (not final) | Stay; wait for the next pair (winner vs winner). |
 | Champion | Splash: **you are a winner**. Button: **Back to main menu**. |
-| Identity | Anonymous `sessionId` + display name + emoji. No accounts. |
+| Identity | Keep current behavior: on first visit, **random adjective+noun name** and **random emoji**, persisted in `localStorage`. Player can **change** name and emoji on the main menu before matchmaking. No accounts. |
 
 ## Bracket picture (8 humans, example)
 
@@ -152,7 +154,7 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. Display name / emoji on first visit, or emoji-only until later?
+1. Final product name on the home screen (working title is RPS Royal)?
 
 ## Agent rules
 
