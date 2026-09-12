@@ -12,9 +12,9 @@ That file is loaded into every new agent session. The always-apply Cursor rule i
 
 **Current state: Brainstorming** (hackathon day started 2026-09-12). Direction:
 **Rock, Paper, Scissors Royal** — Convex **matchmaking** into live 4/8/16
-brackets of **real players**, 10s RPS rounds, losers return to **Start
-matchmaking**. No player rooms, no spectate. Fake players only if time. See
-[BRAINSTORM.md](./BRAINSTORM.md). Do not implement until state moves to
+brackets of **real players**, a short **wait** after 4/8 so more can join,
+10s RPS rounds, losers return to **Start matchmaking**. No player rooms, no
+spectate. Fake players only if time. See [BRAINSTORM.md](./BRAINSTORM.md). Do not implement until state moves to
 **Development**.
 
 ---

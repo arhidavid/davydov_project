@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (fake players out of v1).
+Last updated: 2026-09-12 (gather window locked).
 
 ## Locked product
 
@@ -18,8 +18,10 @@ codes, no spectators.
 **Loop (owner, 2026-09-12):**
 
 1. Open the public URL (QR or link). Home is one button: **Start matchmaking**.
-2. Convex queues the player. The matcher starts a royal only when there are
-   **4, 8, or 16 real players**. Odd counts never start.
+2. Convex queues the player. After **4** real players are waiting, the matcher
+   **waits a short time** in case more join (for 8 or 16), then starts the
+   **largest exact** bracket (4, 8, or 16). Odd counts never start. 16 queued
+   starts immediately (nothing larger to wait for).
 3. Each pair plays **3 rapid rounds**. **10 seconds** to pick each round.
 4. **Winner vs winner** until one champion.
 5. A player who **loses is booted** to the start screen (same single button).
@@ -80,7 +82,7 @@ can queue again.
 | --- | --- |
 | Entry | **Server matchmaking only.** Home = **Start matchmaking**. QR opens that screen. |
 | Bracket sizes | **4, 8, or 16** only. Never 2, 3, 5, … |
-| When to start (v1) | **Real players only.** Start the **largest exact** size that fits: 16 if 16+ queued, else 8 if 8–15, else 4 if 4–7, else **wait**. Leftovers stay in queue (10 humans → an 8 and 2 waiting). Proposed short **queue window** after the 4th (and 8th) joiner so a 4-royal does not fire before an 8 or 16 can form. |
+| When to start (v1) | **Locked: wait a short time** after 4 (and after 8) so more people can join. Then start the **largest exact** size: 16 if 16+, else 8 if 8–15, else 4 if 4–7. Leftovers stay queued. **16 starts immediately** (cap). Exact window length still open. |
 | 17+ humans | Start a **16**; leftovers stay queued. |
 | Fake players | **Out of v1.** If time: pad-up table above. Do not build bots in the first slice. |
 | Odd players | **Impossible** at royal start. Matcher never commits an odd roster. |
@@ -144,9 +146,8 @@ If time later: fake players pad 1–3 / 5–7 / 9–15 **up** to 4 / 8 / 16.
 
 ## Open questions (short)
 
-1. Confirm **queue window** (try to grow 4→8→16) vs **start a 4 the instant
-   four humans are queued**?
-2. Confirm sudden-death on 3-round ties?
+1. **How long** is the gather window? (asked next)
+2. Sudden-death on 3-round ties?
 3. Champion: brief win splash, then the same button?
 4. Display name on first visit, or emoji-only until later?
 
