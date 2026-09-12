@@ -32,13 +32,14 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **KPM Royale** — *Kamen! Papir! Makaze!* ✊ ✋ ✌️. Live tournament, not async. | After **20s reconnect grace**: opponent wins the match? |
+| **KPM Royale** — *Kamen! Papir! Makaze!* ✊ ✋ ✌️. Live tournament, not async. | Cancel while searching / both disconnect. |
 | **Server-side matchmaking.** No player create/join rooms or join codes. |  |
 | Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. |  |
 | After **4** (and **8**) queued, wait **20 seconds**; then largest exact 4/8/16. **16 starts immediately.** |  |
 | Pairs: 3 rounds (10s). One miss → lose the round. Both miss or same gesture → draw. Extra rounds if tied after 3. **10 draws in a row → random match winner.** |  |
 | End-of-run splash: champion **you are a winner**, loser **you lost**; both have **Back to main menu**. No spectate. |  |
 | Identity: random name + random emoji (existing session helper), **editable** on the main menu. No accounts. |  |
+| Disconnect: **20s** to reconnect; if still gone, **leaver loses** the match (**you lost**). |  |
 | **v1 = real players only.** Fake players only if time. Convex. |  |
 
 **Who it is for:** hackathon audience + judges on phones; a presenter with a projector QR.
