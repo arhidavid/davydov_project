@@ -2,7 +2,8 @@ import { useMutation, useQuery } from "convex/react";
 import { useEffect, useState } from "react";
 import { api } from "../convex/_generated/api.js";
 import { Home } from "./components/Home.js";
-import { Matched } from "./components/Matched.js";
+import { Match } from "./components/Match.js";
+import { ResultSplash } from "./components/ResultSplash.js";
 import { Searching } from "./components/Searching.js";
 import { getEmoji, getName, getSessionId } from "./lib/session.js";
 
@@ -22,6 +23,7 @@ export function App() {
   const enqueue = useMutation(api.queue.enqueue);
   const cancelQueue = useMutation(api.queue.cancel);
   const heartbeat = useMutation(api.queue.heartbeat);
+  const dismissSplash = useMutation(api.queue.dismissSplash);
   const [error, setError] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
 
@@ -64,7 +66,7 @@ export function App() {
   }
 
   if (status.kind === "inRoyal") {
-    return <Matched emoji={getEmoji()} />;
+    return <Match matchId={status.matchId} sessionId={sessionId} />;
   }
 
   if (status.kind === "queued") {
@@ -74,6 +76,17 @@ export function App() {
         emoji={status.emoji}
         onCancel={() => {
           void cancelQueue({ sessionId });
+        }}
+      />
+    );
+  }
+
+  if (status.kind === "lost" || status.kind === "winner") {
+    return (
+      <ResultSplash
+        kind={status.kind}
+        onBack={() => {
+          void dismissSplash({ sessionId });
         }}
       />
     );

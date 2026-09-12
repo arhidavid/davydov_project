@@ -68,6 +68,7 @@ export default defineSchema({
     ),
     lastSeen: v.number(),
     disconnectGraceEndsAt: v.optional(v.number()),
+    splashDismissed: v.optional(v.boolean()),
   })
     .index("by_royal", ["royalId"])
     .index("by_session", ["sessionId"]),

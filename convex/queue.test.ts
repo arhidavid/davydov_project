@@ -91,4 +91,36 @@ describe("matchmaking queue", () => {
     const row = await t.run(async (ctx) => ctx.db.get(queueId));
     expect(row!.lastSeen).toBeGreaterThan(1);
   });
+
+  test("dismissSplash returns a loser to idle without a queue row", async () => {
+    const t = convexTest(schema, modules);
+    const royalId = await t.run(async (ctx) => {
+      const id = await ctx.db.insert("royals", {
+        size: 4,
+        status: "complete",
+        startedAt: 1,
+        championSessionId: grace.sessionId,
+      });
+      await ctx.db.insert("royalPlayers", {
+        royalId: id,
+        sessionId: ada.sessionId,
+        name: ada.name,
+        emoji: ada.emoji,
+        status: "eliminated",
+        lastSeen: 1,
+      });
+      return id;
+    });
+
+    expect(await t.query(api.queue.myStatus, { sessionId: ada.sessionId })).toEqual(
+      { kind: "lost", royalId },
+    );
+
+    await t.mutation(api.queue.dismissSplash, { sessionId: ada.sessionId });
+    expect(await t.query(api.queue.myStatus, { sessionId: ada.sessionId })).toEqual(
+      { kind: "idle" },
+    );
+    const queued = await t.run(async (ctx) => ctx.db.query("queue").collect());
+    expect(queued).toHaveLength(0);
+  });
 });

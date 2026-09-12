@@ -330,4 +330,69 @@ describe("round engine", () => {
     expect(view!.scoreB).toBe(0);
     expect(view!.phase).toBe("revealed");
   });
+
+  test("continueAfterReveal starts the next pick window", async () => {
+    const t = convexTest(schema, modules);
+    const { matchId } = await seedMatch(t);
+    await playRound(t, matchId, "rock", "scissors");
+    await t.mutation(api.matches.continueAfterReveal, {
+      matchId,
+      sessionId: ada,
+    });
+    const view = await t.query(api.matches.view, {
+      matchId,
+      sessionId: ada,
+    });
+    expect(view!.phase).toBe("picking");
+    expect(view!.roundIndex).toBe(2);
+    expect(view!.yourScore).toBe(1);
+    expect(view!.opponentScore).toBe(0);
+    expect(view!.roundSize).toBe(4);
+  });
+
+  test("continueAfterReveal is a no-op while still picking", async () => {
+    const t = convexTest(schema, modules);
+    const { matchId } = await seedMatch(t);
+    await t.mutation(api.matches.continueAfterReveal, {
+      matchId,
+      sessionId: ada,
+    });
+    const view = await t.query(api.matches.view, {
+      matchId,
+      sessionId: ada,
+    });
+    expect(view!.phase).toBe("picking");
+    expect(view!.roundIndex).toBe(1);
+  });
+
+  test("view fills names from royalPlayers when present", async () => {
+    const t = convexTest(schema, modules);
+    const { royalId, matchId } = await seedMatch(t);
+    await t.run(async (ctx) => {
+      await ctx.db.insert("royalPlayers", {
+        royalId,
+        sessionId: ada,
+        name: "Ada",
+        emoji: "🦊",
+        status: "alive",
+        lastSeen: 1,
+      });
+      await ctx.db.insert("royalPlayers", {
+        royalId,
+        sessionId: grace,
+        name: "Grace",
+        emoji: "🐙",
+        status: "alive",
+        lastSeen: 1,
+      });
+    });
+    const view = await t.query(api.matches.view, {
+      matchId,
+      sessionId: ada,
+    });
+    expect(view!.yourName).toBe("Ada");
+    expect(view!.yourEmoji).toBe("🦊");
+    expect(view!.opponentName).toBe("Grace");
+    expect(view!.opponentEmoji).toBe("🐙");
+  });
 });

@@ -43,6 +43,18 @@ const viewValidator = v.union(
     drawStreak: v.number(),
     pickDeadline: v.number(),
     winnerSessionId: v.union(v.string(), v.null()),
+    roundSize: v.union(
+      v.literal(16),
+      v.literal(8),
+      v.literal(4),
+      v.literal(2),
+    ),
+    yourScore: v.number(),
+    opponentScore: v.number(),
+    yourName: v.string(),
+    yourEmoji: v.string(),
+    opponentName: v.string(),
+    opponentEmoji: v.string(),
     yourGesture: v.union(gestureValidator, v.null()),
     opponentGesture: v.union(gestureValidator, v.null()),
     opponentHasThrown: v.boolean(),
@@ -72,6 +84,22 @@ async function throwsForRound(
       q.eq("matchId", matchId).eq("roundIndex", roundIndex),
     )
     .collect();
+}
+
+async function seatIdentity(
+  ctx: QueryCtx | MutationCtx,
+  royalId: Id<"royals">,
+  sessionId: string,
+): Promise<{ name: string; emoji: string }> {
+  const seats = await ctx.db
+    .query("royalPlayers")
+    .withIndex("by_session", (q) => q.eq("sessionId", sessionId))
+    .collect();
+  const seat = seats.find((row) => row.royalId === royalId) ?? null;
+  return {
+    name: seat?.name.trim() || "Player",
+    emoji: seat?.emoji.trim() || "🙂",
+  };
 }
 
 async function throwForPlayer(
@@ -222,6 +250,32 @@ export const beginNextRound = internalMutation({
   },
 });
 
+export const continueAfterReveal = mutation({
+  args: {
+    matchId: v.id("matches"),
+    sessionId: v.string(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const sessionId = requireSessionId(args.sessionId);
+    const match = await ctx.db.get(args.matchId);
+    if (!match) {
+      throw new Error("Match not found");
+    }
+    if (sessionId !== match.playerA && sessionId !== match.playerB) {
+      throw new Error("Not a player in this match");
+    }
+    if (
+      match.phase !== "revealed" ||
+      match.winnerSessionId
+    ) {
+      return null;
+    }
+    await startPicking(ctx, match, match.roundIndex + 1);
+    return null;
+  },
+});
+
 export const submitThrow = mutation({
   args: {
     matchId: v.id("matches"),
@@ -301,6 +355,13 @@ export const view = query({
       rows.find((row) => row.sessionId === otherPlayer(match, sessionId)) ??
       null;
     const picking = match.phase === "picking";
+    const youAreA = sessionId === match.playerA;
+    const you = await seatIdentity(ctx, match.royalId, sessionId);
+    const opponent = await seatIdentity(
+      ctx,
+      match.royalId,
+      otherPlayer(match, sessionId),
+    );
 
     return {
       matchId: match._id,
@@ -314,6 +375,13 @@ export const view = query({
       drawStreak: match.drawStreak,
       pickDeadline: match.pickDeadline,
       winnerSessionId: match.winnerSessionId ?? null,
+      roundSize: match.roundSize,
+      yourScore: youAreA ? match.scoreA : match.scoreB,
+      opponentScore: youAreA ? match.scoreB : match.scoreA,
+      yourName: you.name,
+      yourEmoji: you.emoji,
+      opponentName: opponent.name,
+      opponentEmoji: opponent.emoji,
       yourGesture: yours?.gesture ?? null,
       opponentGesture: picking ? null : (opponentRow?.gesture ?? null),
       opponentHasThrown: opponentRow !== null,

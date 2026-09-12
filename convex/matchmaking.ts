@@ -250,6 +250,9 @@ export async function splashForSession(
     if (seat.status !== "eliminated" && seat.status !== "champion") {
       continue;
     }
+    if (seat.splashDismissed === true) {
+      continue;
+    }
     const royal = await ctx.db.get(seat.royalId);
     if (!royal) continue;
     if (best && royal.startedAt < best.startedAt) continue;
