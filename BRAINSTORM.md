@@ -3,7 +3,7 @@
 **Project state: Brainstorming.** Product notebook. Do not build until the owner
 moves `AGENTS.md` to **Development**.
 
-Last updated: 2026-09-12 (draws + 10-tie coin flip).
+Last updated: 2026-09-12 (20s reconnect grace).
 
 ## Locked product
 

@@ -32,7 +32,7 @@ Owner plan on 2026-09-12. **Do not implement** until state moves to **Developmen
 
 | Locked | Still open (defaults in BRAINSTORM.md) |
 | --- | --- |
-| **KPM Royale** — *Kamen! Papir! Makaze!* ✊ ✋ ✌️. Live tournament, not async. | Disconnect / leave mid-match. |
+| **KPM Royale** — *Kamen! Papir! Makaze!* ✊ ✋ ✌️. Live tournament, not async. | After **20s reconnect grace**: opponent wins the match? |
 | **Server-side matchmaking.** No player create/join rooms or join codes. |  |
 | Brackets of **4, 8, or 16 real players** only. Odd starts **impossible**. |  |
 | After **4** (and **8**) queued, wait **20 seconds**; then largest exact 4/8/16. **16 starts immediately.** |  |
