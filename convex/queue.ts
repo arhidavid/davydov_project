@@ -6,6 +6,11 @@ import {
   type MutationCtx,
   type QueryCtx,
 } from "./_generated/server";
+import {
+  findPlayingSeat,
+  matchIdForSession,
+  onNewEnqueue,
+} from "./matchmaking.js";
 
 const queuedStatus = v.object({
   kind: v.literal("queued"),
@@ -16,7 +21,17 @@ const queuedStatus = v.object({
   lastSeen: v.number(),
 });
 
-const statusReturn = v.union(v.object({ kind: v.literal("idle") }), queuedStatus);
+const inRoyalStatus = v.object({
+  kind: v.literal("inRoyal"),
+  royalId: v.id("royals"),
+  matchId: v.id("matches"),
+});
+
+const statusReturn = v.union(
+  v.object({ kind: v.literal("idle") }),
+  queuedStatus,
+  inRoyalStatus,
+);
 
 async function queueRowBySession(
   ctx: QueryCtx | MutationCtx,
@@ -70,6 +85,10 @@ export const enqueue = mutation({
     const name = displayName(args.name);
     const emoji = displayEmoji(args.emoji);
     const now = Date.now();
+    const inRoyal = await findPlayingSeat(ctx, sessionId);
+    if (inRoyal) {
+      throw new Error("Already in a royal");
+    }
     const existing = await queueRowBySession(ctx, sessionId);
     if (existing) {
       await ctx.db.patch(existing._id, { name, emoji, lastSeen: now });
@@ -82,6 +101,7 @@ export const enqueue = mutation({
       joinedAt: now,
       lastSeen: now,
     });
+    await onNewEnqueue(ctx);
     return { queueId, created: true };
   },
 });
@@ -120,6 +140,17 @@ export const myStatus = query({
     const sessionId = args.sessionId.trim();
     if (!sessionId) {
       return { kind: "idle" as const };
+    }
+    const seat = await findPlayingSeat(ctx, sessionId);
+    if (seat) {
+      const matchId = await matchIdForSession(ctx, seat.royalId, sessionId);
+      if (matchId) {
+        return {
+          kind: "inRoyal" as const,
+          royalId: seat.royalId,
+          matchId,
+        };
+      }
     }
     const existing = await queueRowBySession(ctx, sessionId);
     if (!existing) {

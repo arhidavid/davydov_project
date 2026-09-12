@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as matchmaking from "../matchmaking.js";
 import type * as presence from "../presence.js";
 import type * as queue from "../queue.js";
 import type * as reactions from "../reactions.js";
@@ -20,6 +21,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  matchmaking: typeof matchmaking;
   presence: typeof presence;
   queue: typeof queue;
   reactions: typeof reactions;
