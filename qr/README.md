@@ -3,11 +3,13 @@
 Projector-only page: a large QR that opens **KPM Royale** (`https://app.davydov-pr.com`) on phones.
 
 **Live:** https://qr.davydov-pr.com (Worker `davydov-qr`). Check target: `GET /target`.
+Live Convex stats: https://qr.davydov-pr.com/dashboard (alias `/live`).
 
 | Host | Role |
 | --- | --- |
 | `davydov-pr.com` | Personal calling card — **do not touch** |
 | `qr.davydov-pr.com` | This Worker — big QR for the stage |
+| `qr.davydov-pr.com/dashboard` | Projector live stats from Convex `stats:live` |
 | `app.davydov-pr.com` | Hackathon app (Cloudflare Pages + Convex) — separate deploy |
 
 ## Retarget without a rebuild scramble
@@ -24,6 +26,17 @@ Or set a plain-text var in the Cloudflare dashboard → Worker → Settings → 
 Hard-refresh the projector tab. No code change required for a URL-only change when using dashboard vars / secrets.
 
 Emergency override (does not persist): `https://qr.davydov-pr.com/?url=https://…`
+
+## Live dashboard
+
+`/dashboard` subscribes to the public Convex query `stats:live` (queued players,
+running matches, most popular revealed gesture, …). It also shows a scan QR.
+
+Set `CONVEX_URL` on the Worker (default in `wrangler.jsonc` is the same hosted
+deployment Pages uses). Local override: `?convex=http://127.0.0.1:3210`.
+
+The home QR page keeps the large code and adds a live ticker plus a link to
+the dashboard. `GET /target` is unchanged.
 
 ## Local
 

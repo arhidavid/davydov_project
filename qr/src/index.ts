@@ -1,4 +1,9 @@
 import { encode } from "uqr";
+import {
+  liveClientScript,
+  renderDashboardPage,
+  resolveConvexUrl,
+} from "./dashboard";
 
 /** Resolve the URL the projector QR should open. Query `?url=` wins for emergency retarget. */
 export function resolveTargetUrl(
@@ -118,18 +123,35 @@ export function renderProjectorPage(target: string, source: string): string {
       text-transform: uppercase;
       letter-spacing: 0.14em;
     }
+    .hint a { color: #e7c27a; text-decoration: none; }
+    #ticker-line {
+      font-size: clamp(0.8rem, 2vmin, 1.15rem);
+      color: #e7c27a;
+      text-align: center;
+      min-height: 1.4em;
+    }
+    #live-error { font-size: 0.75rem; color: #8a8b90; }
   </style>
 </head>
 <body>
   <main>
     <div class="stage">
-      <p class="hint">Scan to open</p>
+      <p class="hint">Scan to open · <a href="/dashboard">Live dashboard</a></p>
       <div class="qr">${svg}</div>
       <p class="url" data-source="${safeSource}">${safeTarget}</p>
+      <p id="ticker-line" data-live>Connecting to Convex…</p>
+      <p id="live-error"></p>
     </div>
   </main>
 </body>
 </html>`;
+}
+
+export function withLiveTicker(html: string, convexUrl: string): string {
+  if (!convexUrl) {
+    return html;
+  }
+  return html.replace("</body>", `${liveClientScript(convexUrl)}\n</body>`);
 }
 
 export function renderMissingTargetPage(): string {
@@ -190,11 +212,43 @@ export default {
       return new Response("Method Not Allowed", { status: 405 });
     }
 
+    const resolved = resolveTargetUrl(url, env.TARGET_URL);
+    const convex = resolveConvexUrl(url, env.CONVEX_URL);
+    const dashboardPath =
+      url.pathname === "/dashboard" ||
+      url.pathname === "/dashboard/" ||
+      url.pathname === "/live";
+
+    if (dashboardPath) {
+      if (!resolved.target) {
+        return new Response(renderMissingTargetPage(), {
+          status: 503,
+          headers: {
+            "content-type": "text/html; charset=utf-8",
+            "cache-control": "no-store",
+          },
+        });
+      }
+      const { data } = encode(resolved.target, { ecc: "M", border: 2 });
+      const body = renderDashboardPage({
+        target: resolved.target,
+        targetSource: resolved.source,
+        convexUrl: convex.url,
+        qrSvg: qrMatrixToSvg(data, 1024),
+      });
+      return new Response(request.method === "HEAD" ? null : body, {
+        status: 200,
+        headers: {
+          "content-type": "text/html; charset=utf-8",
+          "cache-control": "no-store",
+        },
+      });
+    }
+
     if (url.pathname !== "/" && url.pathname !== "/index.html") {
       return new Response("Not Found", { status: 404 });
     }
 
-    const resolved = resolveTargetUrl(url, env.TARGET_URL);
     if (!resolved.target) {
       return new Response(renderMissingTargetPage(), {
         status: 503,
@@ -205,7 +259,10 @@ export default {
       });
     }
 
-    const body = renderProjectorPage(resolved.target, resolved.source);
+    const body = withLiveTicker(
+      renderProjectorPage(resolved.target, resolved.source),
+      convex.url,
+    );
     return new Response(request.method === "HEAD" ? null : body, {
       status: 200,
       headers: {

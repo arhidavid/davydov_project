@@ -48,5 +48,7 @@ describe("renderProjectorPage", () => {
     expect(html).toContain("https://app.davydov-pr.com");
     expect(html).toContain("<svg");
     expect(html).toContain('data-source="env"');
+    expect(html).toContain("/dashboard");
+    expect(html).toContain("ticker-line");
   });
 });

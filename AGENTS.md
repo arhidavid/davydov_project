@@ -118,10 +118,10 @@ See [README.md](./README.md) for run/deploy commands. Product spec:
 [BRAINSTORM.md](./BRAINSTORM.md). Build order:
 [IMPLEMENTATION.md](./IMPLEMENTATION.md). Short map:
 
-- `convex/schema.ts`, `convex/queue.ts`, `convex/matchmaking.ts`, `convex/matches.ts`, `convex/bracket.ts`, `convex/rpsLogic.ts`, `convex/disconnect.ts` — backend
-- `convex/queue.test.ts`, `convex/matchmaking.test.ts`, `convex/matches.test.ts`, `convex/rpsLogic.test.ts`, `convex/bracket.test.ts`, `convex/disconnect.test.ts` — Convex function tests (`npm test`)
+- `convex/schema.ts`, `convex/queue.ts`, `convex/matchmaking.ts`, `convex/matches.ts`, `convex/bracket.ts`, `convex/rpsLogic.ts`, `convex/disconnect.ts`, `convex/stats.ts` — backend
+- `convex/queue.test.ts`, `convex/matchmaking.test.ts`, `convex/matches.test.ts`, `convex/rpsLogic.test.ts`, `convex/bracket.test.ts`, `convex/disconnect.test.ts`, `convex/stats.test.ts` — Convex function tests (`npm test`)
 - `src/components/Home.tsx`, `src/components/Searching.tsx`, `src/components/Match.tsx`, `src/components/ResultSplash.tsx` — frontend
-- `qr/` — Cloudflare Worker for `qr.davydov-pr.com` (projector QR; env-retargetable)
+- `qr/` — Cloudflare Worker for `qr.davydov-pr.com` (projector QR + `/dashboard` live stats)
 - `IMPLEMENTATION.md` — ordered build slices; keep **Current slice** in sync
 - `.cursor/environment.json` — Cloud Agent install + Convex/Vite terminals
 - `.cursor/rules/project-goal.mdc` — always-apply reminder of this file
